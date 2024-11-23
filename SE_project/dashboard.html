@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/text.css">
+    <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <div class="left-sidebar">
+        <div class="left-header">
+            <img class="hcmut-icon" src="icons/hcmut.svg">
+        </div>
+        <div class="left-section left-section-js"></div>
+    </div>
+    <div class="right-sidebar">
+        <div class="right-header">
+            <button class="back-button">
+                <img src="icons/whenclick-back.svg">
+            </button>
+            <div class="search-section">
+                <button class="option-button">
+                    <img src="icons/option.svg">
+                </button>
+                <input placeholder="Tìm kiếm">
+                <button class="search-button">
+                    <img src="icons/search.svg">
+                </button>
+            </div>
+            <div class="noti">
+                <button>
+                    <img src="icons/message.svg">
+                </button>
+                <button>
+                    <img src="icons/noti.svg">
+                </button>
+            </div>
+            <div class="profile">
+                <div class="show-profile">
+                    <div class="profile-text">
+                        <div class="div1">Nguyen Van A</div>
+                        <div class="div2">SPSO</div>
+                    </div>
+                    <img src="icons/profile-image.svg">
+                </div>
+                <button>
+                    <img src="icons/show-down.svg">
+                </button>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="div1">
+                <div class="name">Tổng kết ngày</div>
+                <div class="date">21/10/2024</div>
+                <div class="data data-js">
+                </div>
+            </div>
+            <div class="div2">
+                <div class="bxh">
+                    <div class="user-name">Xếp hạng người dùng</div>
+                    <img src="icons/Group 90.svg">
+                </div>
+                <div class="total-cost">
+                    <div class="cost">Doanh thu trong tuần</div>
+                    <img src="icons/BarLineChart.svg">
+                </div>
+            </div>
+            <div class="div3">
+                <div class="pie-chart">
+                    <div>Tổng chi phí</div>
+                    <div class="pie-chart-img">
+                        <img class="pie-img" src="icons/PieLayer.svg">
+                        <img class="pro-img" src="icons/Legends.svg">
+                    </div>
+                </div>
+                <div class="line-chart">
+                    <div>Người dùng truy cập</div>
+                    <img src="icons/BarLineChart-2.svg">
+                </div>
+            </div>
+            <div class="div4">
+                <div class="info">
+                    <h2>Đơn in gần đây</h2>
+                    <a href="#" class="show-more">Show more...</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Mail</th>
+                            <th>Ngày</th>
+                            <th>Máy in</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="right-footer">
+            <div class="copyright"><b>Copyright &#169; 2024 </b><u>Academic Affairs Office.</u> All rights reserved.
+            </div>
+            <div class="version">Version 2.4.0</div>
+        </div>
+    </div>
+
+    <script src="script.js" type="module" class="left-section-js"></script>
+</body>
+
+</html>
