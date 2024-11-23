@@ -9,6 +9,38 @@ const data = [
     { id: "00005", name: "Nguyễn Văn A", email: "anh.huynhanh@hcmut.edu.vn", date: "2024/11/10 15:11:35", printer: "CS1-P12", status: "Đang in" },
     { id: "00006", name: "Nguyễn Văn A", email: "anh.huynhanh@hcmut.edu.vn", date: "2024/11/10 15:11:35", printer: "CS1-P12", status: "Đã in" },
 ];
+const printHistory = [
+    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
+    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" },
+    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
+    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" },
+    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
+    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" },
+    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
+    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" },
+    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
+    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" },
+    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
+    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
+    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" }
+];
 
 
 
@@ -59,8 +91,12 @@ function render(names, icons, icons_click) {
             const clickedName = this.querySelector('.button-1 p').textContent.trim();
             console.log(clickedName);
             if (clickedName === "Trang chủ") {
-                renderRightSection(); // Chỉ render khi là nút Trang chủ
-            } else {
+                renderHomeSection(); // Chỉ render khi là nút Trang chủ
+            }
+            else if (clickedName === "In order") {
+                renderPrintOrderSection();
+            }
+            else {
                 document.querySelector('.right-section-js').innerHTML = ''; // Xóa nội dung nếu không phải Trang chủ
             }
         });
@@ -104,12 +140,12 @@ function loadTableData() {
 function getStatusClass(status) {
     if (status === "Đã in") return "printed";
     if (status === "Đang in") return "in-progress";
-    if (status === "Lỗi") return "error";
+    if (status === "Lỗi") return "errored";
     return "";
 }
 
 
-function renderRightSection() {
+function renderHomeSection() {
     let html = '';
     html += `<div class="div1">
                 <div class="name">Tổng kết ngày</div>
@@ -145,7 +181,7 @@ function renderRightSection() {
                     <h2>Đơn in gần đây</h2>
                     <a href="#" class="show-more">Show more...</a>
                 </div>
-                <table>
+                <table class="recent-print">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -166,7 +202,92 @@ function renderRightSection() {
     renderData(['test', 'test', 'test', 'test'])
     loadTableData();
 }
-renderRightSection();
-renderData(['test', 'test', 'test', 'test'])
+
+let currentPage = 1;
+const rowsPerPage = 12;
+
+function renderTable(data, page = 1) {
+    const startIndex = (page - 1) * rowsPerPage;
+    const endIndex = page * rowsPerPage;
+    const paginatedData = data.slice(startIndex, endIndex);
+
+    const tbody = document.getElementById("print-history-body");
+    tbody.innerHTML = ""; // Clear previous rows
+
+    paginatedData.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.file}</td>
+            <td>${item.pages}</td>
+            <td>${item.printer}</td>
+            <td>${item.mail}</td>
+            <td>${item.date}</td>
+            <td class="status ${getHistoryState(item.status)}">${item.status}</td>
+        `;
+        tbody.appendChild(row);
+    });
+    document.getElementById("page-info").textContent = `Page ${page} of ${Math.ceil(data.length / rowsPerPage)}`;
+}
+
+function getHistoryState(status) {
+    switch (status) {
+        case "Đã in":
+            return "success";
+        case "Lỗi":
+            return "error";
+        case "Đang in":
+            return "pending";
+        default:
+            return "";
+    }
+}
+
+function changePage(direction) {
+    const totalPages = Math.ceil(printHistory.length / rowsPerPage);
+
+    // Update current page based on direction
+    if (direction === -1 && currentPage > 1) {
+        currentPage -= 1;
+    } else if (direction === 1 && currentPage < totalPages) {
+        currentPage += 1;
+    }
+
+    // Render the table for the new page
+    renderTable(printHistory, currentPage);
+}
+
+
+function renderPrintOrderSection() {
+    let html = '';
+    html += `
+    <h2 class="his-name">Lịch sử in</h2>
+    <table class="print-history-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tài liệu</th>
+                <th>Số trang</th>
+                <th>Máy in</th>
+                <th>Mail</th>
+                <th>Ngày</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody id="print-history-body">
+            <!-- Rows will be injected dynamically using JavaScript -->
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button class="page-btn" onclick="changePage(-1)">❮</button>
+        <span id="page-info"></span>
+        <button class="page-btn" onclick="changePage(1)">❯</button>
+    </div>
+        `;
+    document.querySelector('.right-section-js').innerHTML = html;
+    renderTable(printHistory);
+}
+renderPrintOrderSection();
+renderHomeSection();
 render(['Trang chủ', 'In order', 'Báo cáo sales', 'Cài đặt máy in', 'Quản lý người dùng'], icons, icons_click);
 loadTableData();

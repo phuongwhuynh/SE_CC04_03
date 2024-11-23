@@ -55,7 +55,28 @@
         </div>
 
         <div class="right-section right-section-js">
-
+            <h2>Lịch sử in</h2>
+            <table class="print-history-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tài liệu</th>
+                        <th>Số trang</th>
+                        <th>Máy in</th>
+                        <th>Mail</th>
+                        <th>Ngày</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody id="print-history-body">
+                    <!-- Rows will be injected dynamically using JavaScript -->
+                </tbody>
+            </table>
+            <div class="pagination">
+                <button class="page-btn" onclick="changePage(-1)">❮</button>
+                <span id="page-info"></span>
+                <button class="page-btn" onclick="changePage(1)">❯</button>
+            </div>
         </div>
 
         <div class="right-footer">
@@ -65,7 +86,7 @@
         </div>
     </div>
 
-    <script src="home.js" type="module" class="left-section-js"></script>
+    <script src="home.js" class="left-section-js"></script>
 </body>
 
 </html>
