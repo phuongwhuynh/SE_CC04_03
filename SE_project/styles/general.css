@@ -6,8 +6,8 @@ body{
 .left-sidebar {
     display: flex;
     background-color: lightblue;
-    width: 321px;
     flex-direction: column;
+    
 }
 
 .right-sidebar {
