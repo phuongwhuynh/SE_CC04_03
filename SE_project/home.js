@@ -56,9 +56,12 @@ function render(names, icons, icons_click) {
             const img2 = this.querySelector('.button-2 img');
             img2.src = `icons/whenclick-back.svg`;
 
-            const link = this.getAttribute('data-link');
-            if (link) {
-                window.location.href = link;
+            const clickedName = this.querySelector('.button-1 p').textContent.trim();
+            console.log(clickedName);
+            if (clickedName === "Trang chủ") {
+                renderRightSection(); // Chỉ render khi là nút Trang chủ
+            } else {
+                document.querySelector('.right-section-js').innerHTML = ''; // Xóa nội dung nếu không phải Trang chủ
             }
         });
     });
@@ -79,15 +82,13 @@ function renderData(names) {
     )
     document.querySelector('.data-js').innerHTML = html;
 }
-renderData(['test', 'test', 'test', 'test'])
-render(['Trang chủ', 'In order', 'Báo cáo sales', 'Cài đặt máy in', 'Quản lý người dùng'], icons, icons_click);
+
 
 
 function loadTableData() {
     const tableBody = document.getElementById("table-body");
     data.forEach(item => {
         const row = document.createElement("tr");
-
         row.innerHTML = `
       <td>${item.id}</td>
       <td>${item.name}</td>
@@ -107,4 +108,65 @@ function getStatusClass(status) {
     return "";
 }
 
-document.addEventListener("DOMContentLoaded", loadTableData);
+
+function renderRightSection() {
+    let html = '';
+    html += `<div class="div1">
+                <div class="name">Tổng kết ngày</div>
+                <div class="date">21/10/2024</div>
+                <div class="data data-js">
+                </div>
+            </div>
+            <div class="div2">
+                <div class="bxh">
+                    <div class="user-name">Xếp hạng người dùng</div>
+                    <img src="icons/Group 90.svg">
+                </div>
+                <div class="total-cost">
+                    <div class="cost">Doanh thu trong tuần</div>
+                    <img src="icons/BarLineChart.svg">
+                </div>
+            </div>
+            <div class="div3">
+                <div class="pie-chart">
+                    <div>Tổng chi phí</div>
+                    <div class="pie-chart-img">
+                        <img class="pie-img" src="icons/PieLayer.svg">
+                        <img class="pro-img" src="icons/Legends.svg">
+                    </div>
+                </div>
+                <div class="line-chart">
+                    <div>Người dùng truy cập</div>
+                    <img src="icons/BarLineChart-2.svg">
+                </div>
+            </div>
+            <div class="div4">
+                <div class="info">
+                    <h2>Đơn in gần đây</h2>
+                    <a href="#" class="show-more">Show more...</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Mail</th>
+                            <th>Ngày</th>
+                            <th>Máy in</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+
+            </div>
+        `;
+    document.querySelector('.right-section-js').innerHTML = html;
+    renderData(['test', 'test', 'test', 'test'])
+    loadTableData();
+}
+renderRightSection();
+renderData(['test', 'test', 'test', 'test'])
+render(['Trang chủ', 'In order', 'Báo cáo sales', 'Cài đặt máy in', 'Quản lý người dùng'], icons, icons_click);
+loadTableData();
