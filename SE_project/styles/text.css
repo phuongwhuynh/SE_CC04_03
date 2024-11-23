@@ -23,6 +23,15 @@
     background-color: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
+/* .left-sidebar-div:active {
+    background-color: black;
+} */
+.left-sidebar-div-active {
+    background-color: #03346E;
+}
+.text-active{
+    color: white;
+}
 .left-sidebar-div p{
     margin-left: 6px;
 }
