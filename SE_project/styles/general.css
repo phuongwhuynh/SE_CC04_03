@@ -1,0 +1,17 @@
+body{
+    display: flex;
+    flex-direction: row;
+    margin: 0px;    
+}
+.left-sidebar {
+    display: flex;
+    background-color: lightblue;
+    flex-direction: column;
+    
+}
+
+.right-sidebar {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
