@@ -4,6 +4,7 @@ import Userbar from "./ui/Userbar"
 import { useContext } from "react"
 import { GlobalContext } from "../context/index"
 import UserSetting from "./ui/Usersetting"
+import { Outlet } from "react-router-dom"
 
 const Layout = () => {
   const { openUserSetting, collapse } = useContext(GlobalContext)
@@ -11,7 +12,6 @@ const Layout = () => {
   return (
     <>
       <div className="h-[100vh] flex w-full">
-        {/* Sidebar with transition */}
         <aside
           className={`transition-all duration-300 ${
             collapse ? "w-[5%]" : "w-[20%]"
@@ -35,22 +35,23 @@ const Layout = () => {
               </div>
             </div>
 
-         
             <div className="h-full">
               <SidebarContainer />
             </div>
           </div>
         </aside>
 
- 
+      
         <div className="h-full w-full">
           <div className="w-full bg-blue h-16 flex items-center p-2 justify-between pr-12">
             <Userbar />
           </div>
+          <div className="p-4">
+            <Outlet /> 
+          </div>
         </div>
       </div>
 
-    
       {openUserSetting ? <UserSetting /> : null}
     </>
   )
