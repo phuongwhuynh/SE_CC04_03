@@ -1,8 +1,7 @@
-
-.delete-btn:hover{
+.delete-btn:hover {
   background-color: #f10028;
 }
-.setting-btn button{
+.setting-btn button {
   border-radius: 5px;
   padding: 5px 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

@@ -2,6 +2,15 @@
     display: block;
     margin-top: 20px;
 } */
+.right-sidebar {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+/* .left-sidebar button {
+    display: block;
+    margin-top: 20px;
+} */
 .left-header {
   height: 70px;
   background-color: #024caa;
@@ -203,7 +212,6 @@
   margin-top: 10px;
 }
 .right-section .div2 {
-  height: 322px;
   margin-top: 38px;
   display: flex;
   padding-top: 10px;
@@ -218,6 +226,9 @@
   padding-top: 12px;
   padding-left: 12px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+}
+.div2 img {
+  padding-bottom: 30px;
 }
 .bxh img {
   width: 450px;
@@ -239,7 +250,6 @@
 }
 
 .right-section .div3 {
-  height: 298px;
   margin-top: 21px;
   display: flex;
   column-gap: 20px;
@@ -255,8 +265,8 @@
   border-radius: 10px;
 }
 .pie-chart {
-  flex: 1;
   background-color: white;
+  padding-right: 30px;
 }
 .line-chart {
   flex: 1;
