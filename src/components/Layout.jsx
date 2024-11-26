@@ -13,45 +13,38 @@ const Layout = () => {
     <>
       <div className="h-[100vh] flex w-full">
         <aside
-          className={`transition-all duration-300 ${
-            collapse ? "w-[5%]" : "w-[20%]"
-          }`}
+          className={`transition-all duration-300 ${collapse ? "w-[5%]" : "w-[18%]"
+            }`}
         >
           <div
-            className="h-full flex flex-col"
+            className="flex flex-col h-full"
             style={{ boxShadow: "3px 0px 8px 0px rgba(0, 0, 0, 0.24)" }}
           >
             <div
-              className={`bg-blue-200 w-full p-2.5 flex items-center transition-all duration-300 ${
-                collapse ? "justify-center" : ""
-              }`}
+              className={`bg-blue-200 w-full p-2.5 flex items-center transition-all duration-300 ${collapse ? "justify-center" : ""
+                }`}
             >
               <div
-                className={`bg-white p-1 rounded-full flex items-center transition-all duration-300 ${
-                  collapse ? "w-10 h-11" : "w-auto h-11"
-                }`}
+                className={`bg-white p-1 rounded-full flex items-center transition-all duration-300 ${collapse ? "w-10 h-11" : "w-auto h-11"
+                  }`}
               >
                 <img src={hcmut} alt="hcmut" width="35px" />
               </div>
             </div>
-
             <div className="h-full">
               <SidebarContainer />
             </div>
           </div>
         </aside>
-
-      
-        <div className="h-full w-full">
-          <div className="w-full bg-blue h-16 flex items-center p-2 justify-between pr-12">
+        <div className="w-full h-full">
+          <div className="flex items-center justify-between w-full h-16 p-2 pr-12 bg-blue">
             <Userbar />
           </div>
-          <div className="p-4">
-            <Outlet /> 
+          <div>
+            <Outlet />
           </div>
         </div>
       </div>
-
       {openUserSetting ? <UserSetting /> : null}
     </>
   )

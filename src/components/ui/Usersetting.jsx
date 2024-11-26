@@ -42,13 +42,13 @@ export default function UserSetting() {
         <DialogContent>
           <div>
             <div className="flex justify-between">
-              <div className="flex items-center gap-6 relative">
+              <div className="relative flex items-center gap-6">
                 <IoIosCamera className="absolute text-[#2f3542] text-3xl bg-[#ced6e0] rounded-full p-0.5 bottom-[-5px] left-[55px] cursor-pointer" />
                 <div>
                   <img src={avatar} className="w-24 rounded-full" />
                 </div>
                 <div className="text-[#2f3542]">
-                  <p className="font-bold text-lg text-black">Nguyễn Văn A</p>
+                  <p className="text-lg font-bold text-black">Nguyễn Văn A</p>
 
                   <p>HCMUT SPSO</p>
                 </div>
@@ -58,7 +58,7 @@ export default function UserSetting() {
               </div>
             </div>
             <div className="my-4 border border-[#d6cece] rounded-md pl-4 pb-4 pr-4">
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <p className="text-lg font-semibold">Thông tin cá nhân</p>
                 <EditButton />
               </div>
@@ -78,9 +78,9 @@ export default function UserSetting() {
               </div>
             </div>
             <div className="my-4 border border-[#d6cece] rounded-md p-4 text-center">
-              <p className="text-lg font-semibold mb-2">Management Team</p>
+              <p className="mb-2 text-lg font-semibold">Management Team</p>
               <hr></hr>
-              <div className="flex justify-between mt-4 mx-8">
+              <div className="flex justify-between mx-8 mt-4">
                 <div>
                   <div
                     className="w-12 h-12 border-[#a4b0be] border-dashed flex items-center justify-center p-2 rounded-lg text-[#a4b0be] mb-1"
@@ -101,14 +101,14 @@ export default function UserSetting() {
                 ))}
               </div>
             </div>
-            <button className="bg-red-500 text-white rounded-sm py-1 px-2 my-2 mx-2 cursor-pointer delete-btn ">
+            <button className="px-2 py-1 mx-2 my-2 text-white bg-red-500 rounded-sm cursor-pointer delete-btn ">
               Khóa tài khoản
             </button>
           </div>
         </DialogContent>
-        <DialogActions className="flex justify-between w-full setting-btn mt-4">
+        <DialogActions className="flex justify-between w-full mt-4 setting-btn">
           <div className="flex justify-start w-full mb-4 ml-4">
-            <button className="bg-red-600 text-white">Log out</button>
+            <button className="text-white bg-red-600">Log out</button>
           </div>
           <div className="flex justify-end gap-4 mb-4 mr-4">
             <button
@@ -117,7 +117,7 @@ export default function UserSetting() {
             >
               Cancel
             </button>
-            <button onClick={handleClose} className="bg-blue-300 text-white">
+            <button onClick={handleClose} className="text-white bg-blue-300">
               Save
             </button>
           </div>

@@ -9,13 +9,13 @@ import { LuChevronFirst } from "react-icons/lu"
 import { LuChevronLast } from "react-icons/lu"
 
 const Userbar = () => {
-  const {collapse,
-          setCollapse} = useContext(GlobalContext)
-  const toggleCollapse = ()=>{
+  const { collapse,
+    setCollapse } = useContext(GlobalContext)
+  const toggleCollapse = () => {
     setCollapse(!collapse)
   }
-  useEffect(()=>{
-    
+  useEffect(() => {
+
   })
   return (
     <>
@@ -36,7 +36,7 @@ const Userbar = () => {
         <MdMenu className="text-2xl" />
         <input
           placeholder="Tìm kiếm"
-          className="bg-transparent outline-none cursor-pointer w-full"
+          className="w-full bg-transparent outline-none cursor-pointer"
         />
         <IoMdSearch />
       </div>
