@@ -21,25 +21,25 @@ const SidebarContainer = () => {
     {
       title: "In order",
       icon: <IoMdCart />,
-      to: "/",
+      to: "/order",
       indicate: "order",
     },
     {
       title: "Báo cáo sales",
       icon: <BiSolidReport />,
-      to: "/",
+      to: "/report",
       indicate: "report",
     },
     {
       title: "Cài đặt máy in",
       icon: <IoSettingsSharp />,
-      to: "/",
+      to: "/setting",
       indicate: "setting",
     },
     {
       title: "Quản lý người dùng",
       icon: <MdAdminPanelSettings />,
-      to: "/",
+      to: "/users",
       indicate: "user",
     },
   ]

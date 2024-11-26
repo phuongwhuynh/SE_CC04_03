@@ -1,4 +1,3 @@
-// App.jsx
 import React, { useContext, useState } from 'react';
 import './Home.css';
 import SidebarContainer from './ui/Sidebar';

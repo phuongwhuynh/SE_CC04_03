@@ -12,7 +12,6 @@ const Layout = () => {
   return (
     <>
       <div className="h-[100vh] flex w-full">
-        {/* Sidebar with transition */}
         <aside
           className={`transition-all duration-300 ${collapse ? "w-[5%]" : "w-[18%]"
             }`}
@@ -32,15 +31,11 @@ const Layout = () => {
                 <img src={hcmut} alt="hcmut" width="35px" />
               </div>
             </div>
-
-
             <div className="h-full">
               <SidebarContainer />
             </div>
           </div>
         </aside>
-
-
         <div className="w-full h-full">
           <div className="flex items-center justify-between w-full h-16 p-2 pr-12 bg-blue">
             <Userbar />
@@ -50,8 +45,6 @@ const Layout = () => {
           </div>
         </div>
       </div>
-
-
       {openUserSetting ? <UserSetting /> : null}
     </>
   )

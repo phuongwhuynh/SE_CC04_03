@@ -1,7 +1,7 @@
 
 
 export const Printers = () => {
-  return (
-    <div>printers</div>
-  )
+  return <div>
+    Setting
+  </div>
 }
