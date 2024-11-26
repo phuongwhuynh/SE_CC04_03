@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import './Home.css';
-import SidebarContainer from './ui/Sidebar';
 import { GlobalContext } from "../context/index"
 import home_icons from '../utils/icons';
 
@@ -12,49 +11,6 @@ const printData = [
     { id: "00005", name: "Nguyễn Văn A", email: "anh.huynhanh@hcmut.edu.vn", date: "2024/11/10 15:11:35", printer: "CS1-P12", status: "Đang in" },
     { id: "00006", name: "Nguyễn Văn A", email: "anh.huynhanh@hcmut.edu.vn", date: "2024/11/10 15:11:35", printer: "CS1-P12", status: "Đã in" },
 ];
-
-// const LeftSidebar = ({ activeTab, setActiveTab }) => {
-//     const menuItems = [
-//         { name: 'Trang chủ', icon: 'house' },
-//         { name: 'In order', icon: 'cart' },
-//         { name: 'Báo cáo sales', icon: 'chart' },
-//         { name: 'Cài đặt máy in', icon: 'settings' },
-//         { name: 'Quản lý người dùng', icon: 'userCog' }
-//     ];
-
-//     return (
-//         <div className="left-sidebar">
-//             <div className="left-header">
-//                 <img src="icons/hcmut.svg" alt="HCMUT" className="hcmut-icon" />
-//             </div>
-//             <div className="left-section">
-//                 {menuItems.map((item) => (
-//                     <div
-//                         key={item.name}
-//                         className={`left-sidebar-div ${activeTab === item.name ? 'left-sidebar-div-active' : ''}`}
-//                         onClick={() => setActiveTab(item.name)}
-//                     >
-//                         <button className="button-1">
-//                             <img
-//                                 src={`icons/${activeTab === item.name ? icons.clicked[item.icon] : icons.noClick[item.icon]}`}
-//                                 alt={item.name}
-//                             />
-//                             <p className={activeTab === item.name ? 'text-active' : ''}>
-//                                 {item.name}
-//                             </p>
-//                         </button>
-//                         <button className="button-2">
-//                             <img
-//                                 src={`icons/${activeTab === item.name ? 'whenclick-back.svg' : 'noclick-back.svg'}`}
-//                                 alt="back"
-//                             />
-//                         </button>
-//                     </div>
-//                 ))}
-//             </div>
-//         </div>
-//     );
-// };
 
 const DataCard = ({ value, label, change }) => (
     <div className="data-para">
@@ -105,7 +61,7 @@ const PrintTable = ({ data }) => {
     );
 };
 
-const Dashboard = () => (
+const HomeSection = () => (
     <div className="right-section">
         <div className="div1">
             <div className="name">Tổng kết ngày</div>
@@ -153,29 +109,6 @@ const Dashboard = () => (
         </div>
     </div>
 );
-const Header = () => (
-    <div className="right-header">
-        <img src={`${home_icons.noClick.back}`} alt="Back" />
-        <div className="search-section">
-            <img src="icons/option.svg" alt="Options" />
-            <img src="icons/search.svg" alt="Search" />
-        </div>
-        <div className="noti">
-            <img src="icons/message.svg" alt="Messages" />
-            <img src="icons/noti.svg" alt="Notifications" />
-        </div>
-        <div className="profile">
-            <div className="show-profile">
-                <div className="profile-text">
-                    <div className="div1">Nguyen Van A</div>
-                    <div className="div2">SPSO</div>
-                </div>
-                <img src="icons/profile-image.svg" alt="Profile" />
-            </div>
-            <img src="icons/show-down.svg" alt="Show more" />
-        </div>
-    </div>
-);
 
 const Footer = () => (
     <div className="right-footer">
@@ -190,11 +123,9 @@ const Footer = () => (
 const Home = () => {
     const { tab } = useContext(GlobalContext);
     return (
-        <div style={{ display: 'flex', margin: 0 }}>
-            <div className="right-sidebar">
-                {tab === 'home' && <Dashboard />}
-                <Footer />
-            </div>
+        <div style={{ display: 'flex', margin: 0, flexDirection: 'column' }}>
+            {tab === 'home' && <HomeSection />}
+            <Footer />
         </div>
     );
 };
