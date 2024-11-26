@@ -43,7 +43,6 @@ const SidebarContainer = () => {
       indicate: "user",
     },
   ]
-  console.log(tab)
   return (
     <div
       className={`h-full flex flex-col ${collapse ? "w-[4rem]" : "w-[16rem]"} justify-between`}
