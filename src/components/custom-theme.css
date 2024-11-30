@@ -1,0 +1,151 @@
+.buttonOwn {
+  position: relative;
+  display: inline-block;
+  margin: 20px;
+}
+
+.buttonOwn a {
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #024CAA;
+  display: block;
+  position: relative;
+  padding: 6px 12px;
+
+  margin-right: 40px;
+  -webkit-box-shadow: inset 0 1px 0 #ffe5c4, 0 5px 0 #03346E;
+  -moz-box-shadow: inset 0 1px 0 #ffe5c4, 0 5px 0 #03346E;
+  box-shadow: inset 0 1px 0 #ffe5c4, 0 5px 0 #03346E;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.buttonOwn a:active {
+  top: 5px;
+  background-color: #024CAA;
+
+  -webkit-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #03346E;
+  -moz-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #03346E;
+  box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #03346E;
+}
+
+.buttonOwn:after {
+  content: "";
+  height: 100%;
+  width: 100%;
+  padding: 4px;
+  position: absolute;
+  bottom: -15px;
+  left: -4px;
+  z-index: -1;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.buttonOwn1 {
+  position: relative;
+  display: inline-block;
+  margin: 20px;
+}
+
+.buttonOwn1 a {
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #F95454;
+  display: block;
+  position: relative;
+  padding: 6px 12px;
+
+  -webkit-box-shadow: inset 0 1px 0 #ffe5c4, 0 5px 0 #C62E2E;
+  -moz-box-shadow: inset 0 1px 0 #ffe5c4, 0 5px 0 #C62E2E;
+  box-shadow: inset 0 1px 0 #ffe5c4, 0 5px 0 #C62E2E;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.buttonOwn1 a:active {
+  top: 5px;
+  background-color: #F95454;
+
+  -webkit-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #C62E2E;
+  -moz-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #C62E2E;
+  box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #C62E2E;
+}
+
+.buttonOwn1:after {
+  content: "";
+  height: 100%;
+  width: 100%;
+  padding: 4px;
+  position: absolute;
+  bottom: -15px;
+  left: -4px;
+  z-index: -1;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.buttonOwn2 {
+  position: relative;
+  display: inline-block;
+  margin: 20px;
+}
+
+.buttonOwn2 a {
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #26de81;
+  display: block;
+  position: relative;
+  padding: 6px 12px;
+
+  
+  -webkit-box-shadow: inset 0 1px 0 #ffe5c4, 0 5px 0 #20bf6b;
+  -moz-box-shadow: inset 0 1px 0 #ffe5c4, 0 5px 0 #20bf6b;
+  box-shadow: inset 0 1px 0 #ffe5c4, 0 5px 0 #20bf6b;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.buttonOwn2 a:active {
+  top: 5px;
+  background-color: #26de81;
+
+  -webkit-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #20bf6b;
+  -moz-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #20bf6b;
+  box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #20bf6b;
+}
+
+.buttonOwn2:after {
+  content: "";
+  height: 100%;
+  width: 100%;
+  padding: 4px;
+  position: absolute;
+  bottom: -15px;
+  left: -4px;
+  z-index: -1;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
