@@ -7,22 +7,22 @@ import printer3 from "../assets/printer3.jpg"
 
 
 export const managers = [
-    {
-        name: 'Caitlyn',
-        avatar: avt1,
-    },
-    {
-        name: 'Jinx',
-        avatar: avt1,
-    },
-    {
-        name: 'Jayce',
-        avatar: avt3,
-    },
-    {
-        name: 'Viktor',
-        avatar: avt4,
-    }
+  {
+    name: 'Caitlyn',
+    avatar: avt1,
+  },
+  {
+    name: 'Jinx',
+    avatar: avt1,
+  },
+  {
+    name: 'Jayce',
+    avatar: avt3,
+  },
+  {
+    name: 'Viktor',
+    avatar: avt4,
+  }
 ]
 
 export const printers = [
