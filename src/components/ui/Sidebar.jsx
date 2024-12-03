@@ -45,26 +45,15 @@ const SidebarContainer = () => {
   ]
   return (
     <div
-      className={`h-full flex flex-col ${
-        collapse ? "w-[4rem]" : "w-full"
-      } justify-between`}
+      className={`h-full flex flex-col ${collapse ? "w-[4rem]" : "w-full"
+        } justify-between`}
     >
       <div className={`group cursor-pointer w-full`}>
         {items.map((item, index) => (
           <Link to={item.to} key={index}>
             <div
-<<<<<<< HEAD
-              className={`flex justify-between items-center p-3 transition-all duration-300 w-full ${
-                tab === item.indicate ? "bg-blue text-white" : "bg-white"
-              }  ${
-                collapse
-                  ? "m-2 rounded-md shadow-[1.95px_1.95px_2.6px_rgba(0,0,0,0.15)]"
-                  : "m-0"
-              }`}
-=======
               className={`flex justify-between items-center p-3 transition-all duration-300 ${tab === item.indicate ? "bg-blue text-white" : "bg-white"
                 }  ${collapse ? "m-2 rounded-md" : "m-0"}`}
->>>>>>> 4d40667d93d9c684b0f4c9c83c2164a1c7dcc1b9
               onClick={() => setTab(item.indicate)}
             >
               <div className={`flex items-center gap-2 text-base`}>
