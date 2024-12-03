@@ -1,35 +1,30 @@
 import avt1 from '../assets/avt1.jpg'
 import avt3 from '../assets/avt3.jpg'
 import avt4 from '../assets/avt4.jpg'
-<<<<<<< HEAD
-=======
 import printer1 from '../assets/printer1.jpg'
 import printer2 from "../assets/printer2.jpg"
 import printer3 from "../assets/printer3.jpg"
 
->>>>>>> Anh
 
 export const managers = [
-    {
-        name: 'Caitlyn',
-        avatar: avt1,
-    },
-    {
-        name: 'Jinx',
-        avatar: avt1,
-    },
-    {
-        name: 'Jayce',
-        avatar: avt3,
-    },
-    {
-        name: 'Viktor',
-        avatar: avt4,
-    }
+  {
+    name: 'Caitlyn',
+    avatar: avt1,
+  },
+  {
+    name: 'Jinx',
+    avatar: avt1,
+  },
+  {
+    name: 'Jayce',
+    avatar: avt3,
+  },
+  {
+    name: 'Viktor',
+    avatar: avt4,
+  }
 ]
 
-<<<<<<< HEAD
-=======
 export const printers = [
   {
     real_name: "Brother HL-L2366DW Wifi",
@@ -210,4 +205,3 @@ export const printers = [
   },
 ]
 
->>>>>>> Anh
