@@ -45,9 +45,16 @@ const SidebarContainer = () => {
   ]
   return (
     <div
+<<<<<<< HEAD
       className={`h-full flex flex-col ${collapse ? "w-[4rem]" : "w-[16rem]"} justify-between`}
     >
       <div className={`group cursor-pointer`}>
+=======
+      className={`h-full flex flex-col ${collapse ? "w-[4rem]" : "w-full"
+        } justify-between`}
+    >
+      <div className={`group cursor-pointer w-full`}>
+>>>>>>> Anh
         {items.map((item, index) => (
           <Link to={item.to} key={index}>
             <div

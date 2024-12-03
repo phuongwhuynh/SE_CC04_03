@@ -5,9 +5,12 @@ import { useContext } from "react"
 import { GlobalContext } from "../context/index"
 import UserSetting from "./ui/Usersetting"
 import { Outlet } from "react-router-dom"
+import PrinterSetting from "./ui/PrinterSetting"
+import AddPrinterModel from "./ui/AddPrinterModel"
 
 const Layout = () => {
-  const { openUserSetting, collapse } = useContext(GlobalContext)
+  const { openUserSetting, collapse, curPrinter, addPrinter } =
+    useContext(GlobalContext)
 
   return (
     <>
@@ -46,6 +49,8 @@ const Layout = () => {
         </div>
       </div>
       {openUserSetting ? <UserSetting /> : null}
+      {curPrinter ? <PrinterSetting /> : null}
+      {addPrinter && <AddPrinterModel />}
     </>
   )
 }
