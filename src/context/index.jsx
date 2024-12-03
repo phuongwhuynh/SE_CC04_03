@@ -6,6 +6,12 @@ export default function GlobalState({children}){
     const [tab,setTab] = useState("home");
     const [openUserSetting,setOpenUserSetting] = useState(false)
     const [collapse, setCollapse] = useState(false)
+<<<<<<< HEAD
+=======
+    const [curPrinter,setCurPrinter] = useState(null)
+    const [addPrinter,setAddPrinter] = useState(false)
+    const [files, setFiles] = useState([])
+>>>>>>> Anh
     return (
       <GlobalContext.Provider
         value={{
@@ -15,6 +21,15 @@ export default function GlobalState({children}){
           setOpenUserSetting,
           collapse,
           setCollapse,
+<<<<<<< HEAD
+=======
+          curPrinter,
+          setCurPrinter,
+          addPrinter,
+          setAddPrinter,
+          files,
+          setFiles,
+>>>>>>> Anh
         }}
       >
         {children}
