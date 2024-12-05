@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as pdfjs from 'pdfjs-dist/build/pdf';
+import { FaExclamationCircle,FaCheckCircle    } from 'react-icons/fa';
 
 // TO-DO: wrap necassary info of successfully printed document and push to global context 
 
@@ -13,7 +14,6 @@ const printers = [
 
 const PrinterPropertiesModal = ({ propertiesModal, setOpenPropertiesModal, paperSize, setPaperSize }) => {
   if (!propertiesModal) return null; // Return null if the modal is not open
-
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg w-1/3 p-6 flex flex-col">
@@ -152,20 +152,114 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect }) => {
 
 const MessageModal = ({ message, isOpen, onClose }) => {
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-semibold mb-4">Message</h2>
-        <p>{message}</p>
+        <h2 className="text-xl font-semibold mb-4">Error</h2>
+        <div className="flex justify-center mb-4">
+          <FaExclamationCircle className="text-red-700" size={48} />
+        </div>
+        <span className="block text-center">{message}</span>
         <button
-          className="mt-4 w-full p-2 bg-blue text-white rounded-lg"
+          className="mt-4 w-full p-2 bg-red-500 hover:bg-red-400 active:bg-red-300 text-white rounded-lg"
           onClick={onClose}
         >
           Close
         </button>
       </div>
     </div>
+  );
+};
+
+
+const PrintingProgressModal = ({ isOpen, onClose }) => {
+  const [progress, setProgress] = useState(0);
+  const [step, setStep] = useState(0); 
+
+  useEffect(() => {
+    if (isOpen) {
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev < 100) {
+            return prev + 10; 
+          }
+          clearInterval(interval); 
+          return prev;
+        });
+      }, 500);
+
+      return () => clearInterval(interval);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (progress >= 0 && progress < 25) {
+      setStep(0); 
+    } else if (progress >= 25 && progress < 50) {
+      setStep(1); 
+    } else if (progress >= 50 && progress < 75) {
+      setStep(2); 
+    } else if (progress >= 75 && progress < 100) {
+      setStep(3); 
+    }
+  }, [progress]);
+
+  const steps = [
+    'Kiểm tra yêu cầu in',
+    'Gửi yêu cầu cho máy in',
+    'Máy in bắt đầu in',
+    'In xong',
+  ];
+  const handleClose = () => {
+    onClose();
+    setProgress(0);
+  };
+
+  return (
+    <>
+      {isOpen && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            {progress === 100 ? (
+              <>
+                {/* Only show print successful and icon when progress reaches 100% */}
+                <span className="block text-xl font-semibold mb-4 text-center">Print Successful</span>
+                <div className="flex justify-center items-center mb-4 my-4">
+                <div className="h-12 w-12 bg-green-500 rounded-full flex items-center justify-center text-white">
+                  <FaCheckCircle size={36} /> 
+                </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Show progress steps until progress reaches 100% */}
+                <span className="block text-xl font-semibold mb-4 text-center">Printing</span>
+
+                <p className="my-4 text-l font-bold">{steps[step]}</p>
+                <div className="relative mb-4">
+                  {/* <div className="flex justify-between mb-2">
+                    <span className="text-sm">{steps[step]}</span>
+                  </div> */}
+                  <div className="h-4 bg-gray-200 rounded-full">
+                    <div
+                      className="h-4 bg-blue-500 rounded-full"
+                      style={{ width: `${progress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            <button
+              className="mt-4 w-full p-2 bg-blue hover:bg-blue-300 active:bg-blue-200 text-white rounded-lg"
+              onClick={handleClose}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -190,6 +284,8 @@ const Print = () => {
   const [propertiesModal, setOpenPropertiesModal]=useState(false);
   const [message, setMessage] = useState(""); // To store the message to show in modal
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility
+  const [progressModal, setOpenProgressModal]=useState(false);
+  const closeModal = () => setOpenProgressModal(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -277,13 +373,11 @@ const Print = () => {
   };
   
   const handlePrintClick = () => {
-    if (!filePreview && pdfPages.length === 0) {
-      setMessage("You have not input a file.");
+    if ((!filePreview && pdfPages.length === 0) || (!range) || (!selectedPrinter)) {
+      setMessage("Các thông số cài đặt không hợp lệ");
       setIsModalOpen(true);
-    } else if (!range) {
-      setMessage("The range is invalid.");
-      setIsModalOpen(true);
-    } else {
+    } 
+    else {
       setMessage("Print successful!");
       const parts=range.split("-");
       if (parts.length===2){
@@ -291,7 +385,7 @@ const Print = () => {
       }
       else setTotalPages(copies);
 
-      setIsModalOpen(true);
+      setOpenProgressModal(true);
     }
   };
 
@@ -316,7 +410,11 @@ const Print = () => {
       />
 
       <MessageModal message={message} isOpen={isModalOpen} onClose={handleCloseModal} />
-      
+      <PrintingProgressModal
+        isOpen={progressModal}
+        onClose={closeModal}
+      />
+
       {/* Header */}
       <div className="mx-6 my-4">
         <div className="inline text-xl font-bold text-gray-800">
