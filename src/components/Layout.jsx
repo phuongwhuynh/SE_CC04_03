@@ -1,17 +1,24 @@
 import hcmut from "../assets/hcmut.png"
 import SidebarContainer from "./ui/Sidebar"
 import Userbar from "./ui/Userbar"
-import { useContext } from "react"
+import { useContext, useState,useEffect } from "react"
 import { GlobalContext } from "../context/index"
 import UserSetting from "./ui/Usersetting"
 import { Outlet } from "react-router-dom"
 import PrinterSetting from "./ui/PrinterSetting"
 import AddPrinterModel from "./ui/AddPrinterModel"
+import { getUserRole } from "../utils/utils"
 
 const Layout = () => {
   const { openUserSetting, collapse, curPrinter, addPrinter } =
     useContext(GlobalContext)
-
+    const [role, setRole] = useState(getUserRole())
+    useEffect(() => {
+      const user = JSON.parse(localStorage.getItem("user"))
+      if (user && user.role !== role) {
+        setRole(user.role)
+      }
+    }, [role]) 
   return (
     <>
       <div className="h-[100vh] flex w-full">
@@ -35,15 +42,16 @@ const Layout = () => {
               </div>
             </div>
             <div className="h-full">
-              <SidebarContainer />
+              <SidebarContainer role={role}/>
             </div>
           </div>
         </aside>
-        <div className="w-full h-full">
-          <div className="flex items-center justify-between w-full h-16 p-2 pr-12 bg-blue">
+
+        <div className="h-full w-full">
+          <div className="w-full bg-blue h-16 flex items-center p-2 justify-between pr-12 bar">
             <Userbar />
           </div>
-          <div>
+          <div className="p-4">
             <Outlet />
           </div>
         </div>
