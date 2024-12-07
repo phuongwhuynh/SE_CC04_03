@@ -23,7 +23,7 @@ const Layout = () => {
     <>
       <div className="h-[100vh] flex w-full">
         <aside
-          className={`transition-all duration-300 ${collapse ? "w-[5%]" : "w-[18%]"
+          className={`transition-all duration-300 ${collapse ? "w-[5%]" : "w-[25%]"
             }`}
         >
           <div
