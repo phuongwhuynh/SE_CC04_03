@@ -477,9 +477,10 @@ const Print = () => {
       //addLog(fileName, totalPages, selectedPrinter, curStudent? curStudent.username : "");
       const parts=range.split("-");
       let calculatedTotalPages = parts.length === 2
-        ? (Number(parts[1]) - Number(parts[0]) + 1) * copies
-        : copies;
+        ? (Number(parts[1]) - Number(parts[0]) + 1) 
+        : 1;
       if (isDoubleSided) calculatedTotalPages=Math.ceil(calculatedTotalPages / 2);
+      calculatedTotalPages*=copies;
 
       console.log(calculatedTotalPages)
       console.log(curStudent.studentID)
