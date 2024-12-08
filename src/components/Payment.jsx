@@ -154,8 +154,8 @@ const Payment = () => {
         <span className="text-2xl font-bold px-2">THANH TOÁN ONLINE</span>
         <span className="text-xl font-semibold">SPSS</span>
       </div>
-      <div className="mx-12 my-4 text-l font-semibold">
-        <span className="mr-2">Số giấy in trong tài khoản:</span>
+      <div className="mx-12 my-4 text-l">
+        <span className="mr-2 font-semibold">Số giấy in trong tài khoản:</span>
         <span className="p-2 border border-black border-2 rounded-xl bg-white shadow-lg text-l font-bold ">
            {getUserBalance()}
         </span>

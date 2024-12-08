@@ -3,14 +3,7 @@ import './Home.css';
 import { GlobalContext } from "../context/index"
 import home_icons from '../utils/icons';
 
-const printData = [
-    { id: "00001", name: "Nguyễn Văn A", email: "anh.huynhanh@hcmut.edu.vn", date: "2024/11/10 15:11:35", printer: "CS1-P12", status: "Đã in" },
-    { id: "00002", name: "Nguyễn Văn A", email: "anh.huynhanh@hcmut.edu.vn", date: "2024/11/10 15:11:35", printer: "CS2-P1", status: "Đang in" },
-    { id: "00003", name: "Nguyễn Văn A", email: "anh.huynhanh@hcmut.edu.vn", date: "2024/11/10 15:11:35", printer: "CS1-P12", status: "Lỗi" },
-    { id: "00004", name: "Nguyễn Văn A", email: "anh.huynhanh@hcmut.edu.vn", date: "2024/11/10 15:11:35", printer: "CS1-P12", status: "Đã in" },
-    { id: "00005", name: "Nguyễn Văn A", email: "anh.huynhanh@hcmut.edu.vn", date: "2024/11/10 15:11:35", printer: "CS1-P12", status: "Đang in" },
-    { id: "00006", name: "Nguyễn Văn A", email: "anh.huynhanh@hcmut.edu.vn", date: "2024/11/10 15:11:35", printer: "CS1-P12", status: "Đã in" },
-];
+
 
 const DataCard = ({ value, label, change }) => (
     <div className="data-para">
@@ -21,7 +14,10 @@ const DataCard = ({ value, label, change }) => (
     </div>
 );
 
-const PrintTable = ({ data }) => {
+const rowsPerPage = 5;
+const PrintTable = () => {
+  const {logList}=useContext(GlobalContext)
+  const reversedLogList = [...logList].reverse(); 
     const getStatusClass = (status) => {
         if (status === "Đã in") return "printed";
         if (status === "Đang in") return "in-progress";
@@ -33,27 +29,27 @@ const PrintTable = ({ data }) => {
         <table className='recent-print'>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    {/* <th>ID</th> */}
                     <th>Tên</th>
-                    <th>Mail</th>
+                    <th>Số trang</th>
+                    <th>ID sinh viên</th>
                     <th>Ngày</th>
                     <th>Máy in</th>
                     <th>Trạng thái</th>
                 </tr>
             </thead>
             <tbody id='table-body'>
-                {data.map((item) => (
+                {reversedLogList.map((item) => (
                     <tr key={item.id}>
-                        <td>{item.id}</td>
-                        <td>{item.name}</td>
-                        <td>{item.email}</td>
-                        <td>{item.date}</td>
-                        <td>{item.printer}</td>
-                        <td>
-                            <span className={`status ${getStatusClass(item.status)}`}>
-                                {item.status}
-                            </span>
-                        </td>
+                        {/* <td>{item.id}</td> */}
+                        <td>{item.filename}</td>
+                            <td>{item.totalPages}</td>
+                            <td>{item.userid}</td>
+                            <td>{item.dateTime}</td>
+                            <td>{item.printerName}</td>
+                            <td> 
+                                <span className={`status ${getStatusClass("Đã in")}`}>Đã in</span>
+                            </td>
                     </tr>
                 ))}
             </tbody>
@@ -118,7 +114,7 @@ const HomeSection = () => (
           Show more...
         </a>
       </div>
-      <PrintTable data={printData} />
+      <PrintTable />
     </div>
   </div>
 )

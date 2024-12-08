@@ -49,9 +49,9 @@ const PrinterPropertiesModal = ({ propertiesModal, setOpenPropertiesModal, paper
         <div className="space-y-6 flex-grow">
           {/* Paper / Output Section */}
           <div>
-            <h3 className="text-gray-800 font-medium mb-2">Paper / Output:</h3>
+            <h3 className="text-gray-800 font-medium mb-2">Giấy:</h3>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700">Paper size:</span>
+              <span className="text-sm text-gray-700">Khổ giấy:</span>
               <select
                 className="mt-1 block w-16 border border-gray-300 rounded-sm shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 value={paperSize}
@@ -68,43 +68,43 @@ const PrinterPropertiesModal = ({ propertiesModal, setOpenPropertiesModal, paper
 
           {/* Printer Features Section */}
           <div>
-            <h3 className="text-gray-800 font-medium mb-2">Printer Features:</h3>
+            <h3 className="text-gray-800 font-medium mb-2">Tính năng máy in:</h3>
             <ul className="space-y-2">
               <li className="flex justify-between">
-                <span className="text-gray-700">Print Quality: </span>
+                <span className="text-gray-700">Chất lượng in: </span>
                 <select className="text-blue text-right cursor-pointer bg-transparent border-none focus:ring-0 focus:outline-none">
-                  <option>Draft</option>
-                  <option selected>Normal</option>
-                  <option>High Quality</option>
+                  <option>Nháp</option>
+                  <option selected>Bình thường</option>
+                  <option>Chất lượng cao</option>
                 </select>
               </li>
               <li className="flex justify-between">
-                <span className="text-gray-700">Page Order:</span>
+                <span className="text-gray-700">Thứ tự trang:</span>
                 <select className="text-blue text-right cursor-pointer bg-transparent border-none focus:ring-0 focus:outline-none">
-                  <option>Right, then Down</option>
-                  <option>Down, then Right</option>
+                  <option>Phải, sau đó Xuống</option>
+                  <option>Xuống, sau đó Phải</option>
                 </select>
               </li>
               <li className="flex justify-between">
-                <span className="text-gray-700">Grayscale:</span>
+                <span className="text-gray-700">Màu sắc:</span>
                 <select className="text-blue text-right cursor-pointer bg-transparent border-none focus:ring-0 focus:outline-none">
-                  <option>Color</option>
-                  <option selected>Grayscale</option>
-                  <option>Monochrome</option>
+                  <option>Màu</option>
+                  <option selected>Đen trắng</option>
+                  <option>Đơn sắc</option>
                 </select>
               </li>
               <li className="flex justify-between">
-                <span className="text-gray-700">Reverse Print:</span>
+                <span className="text-gray-700">In đảo ngược:</span>
                 <select className="text-blue text-right cursor-pointer bg-transparent border-none focus:ring-0 focus:outline-none">
-                  <option>Off</option>
-                  <option>On</option>
+                  <option selected>Tắt</option>
+                  <option>Bật</option>
                 </select>
               </li>
               <li className="flex justify-between">
-                <span className="text-gray-700">Watermark:</span>
+                <span className="text-gray-700">Hình mờ:</span>
                 <select className="text-blue text-right cursor-pointer bg-transparent border-none focus:ring-0 focus:outline-none">
-                  <option>None</option>
-                  <option>Custom</option>
+                  <option>Không</option>
+                  <option>Tùy chỉnh</option>
                 </select>
               </li>
             </ul>
@@ -116,7 +116,7 @@ const PrinterPropertiesModal = ({ propertiesModal, setOpenPropertiesModal, paper
           className="mt-4 w-full py-2 bg-blue text-white rounded-md hover:bg-blue-200 active:bg-blue-300"
           onClick={() => setOpenPropertiesModal(false)}
         >
-          Close
+          Đóng
         </button>
       </div>
     </div>
@@ -145,7 +145,7 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect, printersList }) => {
         className="bg-white w-1/3 p-4 rounded-lg shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-xl font-bold mb-4">Select a Printer</h3>
+        <h3 className="text-xl font-bold mb-4">Chọn máy in</h3>
         <ul>
           {currentItems.map((printer, index) => (
             <li
@@ -159,7 +159,7 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect, printersList }) => {
               <div>
                 <strong>{printer.real_name}</strong>
               </div>
-              <div>Location: {printer.location}</div>
+              <div>Địa điểm: {printer.location}</div>
             </li>
           ))}
         </ul>
@@ -173,10 +173,10 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect, printersList }) => {
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
-            Previous
+            Trước
           </button>
           <span className="p-2">
-            Page {currentPage} of {totalPages}
+            Trang {currentPage} của {totalPages}
           </span>
           <button
             className={`px-3 py-1 bg-gray-200 rounded-md ${
@@ -185,7 +185,7 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect, printersList }) => {
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
           >
-            Next
+            Sau
           </button>
         </div>
 
@@ -193,7 +193,7 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect, printersList }) => {
           className="mt-4 w-full py-2 bg-blue text-white rounded-md hover:bg-blue-200 active:bg-blue-300"
           onClick={onClose}
         >
-          Close
+          Đóng
         </button>
       </div>
     </div>
@@ -207,17 +207,25 @@ const MessageModal = ({ message, isOpen, onClose, handleNavigation }) => {
     return(
       <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
         <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-          <h2 className="text-xl font-semibold mb-4">Error</h2>
+          <h2 className="text-xl font-semibold mb-4">Lỗi</h2>
           <div className="flex justify-center mb-4">
             <FaExclamationCircle className="text-red-700" size={48} />
           </div>
           <span className="block text-center">{message}</span>
-          <button
-            className="mt-4 w-full p-2 bg-red-500 hover:bg-red-400 active:bg-red-300 text-white rounded-lg"
-            onClick={() => handleNavigation("/payment")}
-          >
-            Tới trang mua
-          </button>
+          <div className="flex flex-row justify-center">
+            <button
+              className="m-4 h-12 p-2 bg-blue hover:bg-blue-200 active:bg-blue-300 text-white rounded-lg"
+              onClick={() => handleNavigation("/payment")}
+            >
+              Tới trang mua
+            </button>
+            <button
+              className="m-4 w-16 h-12 p-2 bg-red-500 hover:bg-red-400 active:bg-red-300 text-white rounded-lg"
+              onClick={onClose}
+            >
+              Đóng
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -225,7 +233,7 @@ const MessageModal = ({ message, isOpen, onClose, handleNavigation }) => {
   else return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-semibold mb-4">Error</h2>
+        <h2 className="text-xl font-semibold mb-4">Lỗi</h2>
         <div className="flex justify-center mb-4">
           <FaExclamationCircle className="text-red-700" size={48} />
         </div>
@@ -234,7 +242,7 @@ const MessageModal = ({ message, isOpen, onClose, handleNavigation }) => {
           className="mt-4 w-full p-2 bg-red-500 hover:bg-red-400 active:bg-red-300 text-white rounded-lg"
           onClick={onClose}
         >
-          Close
+          Đóng
         </button>
       </div>
     </div>
@@ -292,7 +300,7 @@ const PrintingProgressModal = ({ isOpen, onClose }) => {
             {progress === 100 ? (
               <>
                 {/* Only show print successful and icon when progress reaches 100% */}
-                <span className="block text-xl font-semibold mb-4 text-center">Print Successful</span>
+                <span className="block text-xl font-semibold mb-4 text-center">In thành công</span>
                 <div className="flex justify-center items-center mb-4 my-4">
                 <div className="h-12 w-12 bg-green-500 rounded-full flex items-center justify-center text-white">
                   <FaCheckCircle size={36} /> 
@@ -302,7 +310,7 @@ const PrintingProgressModal = ({ isOpen, onClose }) => {
             ) : (
               <>
                 {/* Show progress steps until progress reaches 100% */}
-                <span className="block text-xl font-semibold mb-4 text-center">Printing</span>
+                <span className="block text-xl font-semibold mb-4 text-center">Đang in...</span>
 
                 <p className="my-4 text-l font-bold">{steps[step]}</p>
                 <div className="relative mb-4">
@@ -323,7 +331,7 @@ const PrintingProgressModal = ({ isOpen, onClose }) => {
               className="mt-4 w-full p-2 bg-blue hover:bg-blue-300 active:bg-blue-200 text-white rounded-lg"
               onClick={handleClose}
             >
-              Close
+              Đóng
             </button>
           </div>
         </div>
@@ -333,9 +341,23 @@ const PrintingProgressModal = ({ isOpen, onClose }) => {
 };
 
 const Print = () => {
-  
+
   const navigate = useNavigate(); 
   const {printersList, addLog, curStudent, getUserBalance, updateUserBalance, setCurStudent}=useContext(GlobalContext)
+  const { selectedPrinter, setSelectedPrinter,
+          copies, setCopies,
+          maxPages, setMaxPages,
+          range, setRange,
+          pagesPerSheet, setPagesPerSheet,
+          orientation, setOrientation,
+          margin, setMargin,
+          isDoubleSided, setIsDoubleSided,
+          flipOption, setFlipOption,
+          filePreview, setFilePreview,
+          fileType, setFileType,
+          pdfPages, setPdfPages,
+          fileName, setFileName,
+          paperSize, setPaperSize}=useContext(GlobalContext)
   useEffect(() => {
     console.log("useEffect triggered");
     const savedUser = JSON.parse(localStorage.getItem("user"));
@@ -343,21 +365,8 @@ const Print = () => {
       setCurStudent(savedUser);  // Sets the state once the data is available
     }
   }, []); 
-  const [selectedPrinter, setSelectedPrinter]=useState("");
-  const [copies, setCopies] = useState(1);
-  const [maxPages, setMaxPages]=useState(1);
-  const [range, setRange] = useState("");
-  const [pagesPerSheet, setPagesPerSheet] = useState(1);
-  const [orientation, setOrientation] = useState("Dọc");
-  const [margin, setMargin] = useState(0.02);
-  const [isDoubleSided, setIsDoubleSided] = useState(false);
-  const [flipOption, setFlipOption] = useState("dai");
-  const [filePreview, setFilePreview] = useState(null);
-  const [fileType, setFileType] = useState(null);
-  const [pdfPages, setPdfPages] = useState([]);
-  const [fileName, setFileName] = useState('');
-  const [paperSize, setPaperSize]=useState('A4');
 
+  console.log(curStudent.studentID)
   const [printerModal, setOpenPrinterModal]=useState(false);
   const [propertiesModal, setOpenPropertiesModal]=useState(false);
   const [message, setMessage] = useState(""); // To store the message to show in modal
@@ -493,12 +502,19 @@ const Print = () => {
 
 
       {/* Header */}
-      <div className="mx-6 my-4">
+      <div className="flex flex-row mx-6 items-center">
         <div className="inline text-xl font-bold text-gray-800">
           IN TÀI LIỆU
         </div>
         <div className="inline text-l font-normal text-gray-800 ml-1">
           SPSS
+        </div>
+
+        <div className="flex-1 flex flex-row justify-end items-center">
+          <span className="mr-2 font-semibold">Số giấy in trong tài khoản:</span>
+          <span className="p-2 border border-black border-2 rounded-xl bg-white shadow-lg text-l font-bold ">
+            {getUserBalance()}
+          </span>
         </div>
       </div>
 
