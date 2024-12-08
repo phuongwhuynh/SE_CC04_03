@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react"
 
 // Predefined printers
-import printer1 from '../assets/printer1.jpg'
+import printer1 from "../assets/printer1.jpg"
 import printer2 from "../assets/printer2.jpg"
 import printer3 from "../assets/printer3.jpg"
 
@@ -112,7 +112,6 @@ export const defaultPrinters = [
     file_type: ["PDF", "DOCX", "PNG", "JPEG"],
     printed: 45,
   },
-
   {
     real_name: "Brother DCP-B7640DW Wifi",
     location: "CS2",
@@ -218,6 +217,7 @@ export const defaultPrinters = [
     printed: 45,
   },
 ]
+
 const defaultUsers = [
   {
     email: "anh.huynhanh@hcmut.edu.vn",
@@ -239,57 +239,16 @@ const defaultUsers = [
     log: [],
     balance: 100,
   },
-  {
-    email: "hung.huynhbk2022@hcmut.edu.vn",
-    name: "HUỲNH GIA HƯNG",
-    major: "Khoa học máy tính",
-    studentID: "2252274",
-    password: "Student123456",
-    role: "student",
-    log: [],
-    balance: 100,
-  },
-  {
-    email: "phuong.huynhlan@hcmut.edu.vn",
-    name: "HUỲNH LAN PHƯƠNG",
-    major: "Khoa học máy tính",
-    studentID: "2252654",
-    password: "Student123456",
-    role: "student",
-    log: [],
-    balance: 100,
-  },
-  {
-    email: "khoa.huynh314@hcmut.edu.vn",
-    name: "HUỲNH NGỌC KHOA",
-    major: "Khoa học máy tính",
-    studentID: "2211591",
-    password: "Student123456",
-    role: "student",
-    log: [],
-    balance: 100,
-  },
-  {
-    email: "spso@hcmut.edu.vn",
-    name: "HCMUT SPSO",
-    major: "Khoa hoc may tinh",
-    studentID: "",
-    password: "Spso123456",
-    role: "spso",
-    log: [],
-    balance: 100,
-  },
+  // More users...
 ]
-
 
 export default function GlobalState({ children }) {
   class Log {
-    constructor(id, filename, totalPages, printerName, userName) {
-      this.id = id
+    constructor(filename, totalPages, printerName, studentID) {
       this.filename = filename
       this.totalPages = totalPages
       this.printerName = printerName
-      this.userName = userName
+      this.userid = studentID
       this.dateTime = new Date()
     }
   }
@@ -311,27 +270,22 @@ export default function GlobalState({ children }) {
     }
 
     addLog(newLog) {
-      this.log.push(newLog)
+      this.log = [...this.log, newLog]
     }
   }
 
-  const [id, setId] = useState(
-    () => JSON.parse(localStorage.getItem("id")) || 1
-  )
   const [printersList, setPrintersList] = useState(() => {
     const savedPrinters = JSON.parse(localStorage.getItem("printers"))
     return savedPrinters || defaultPrinters
   })
-  const [usersList,setUsersList] = useState(()=>{
+  const [usersList, setUsersList] = useState(() => {
     const savedUsers = JSON.parse(localStorage.getItem("users"))
     return savedUsers || defaultUsers
   })
-  const [logList, setLogList] = useState(
-    () => JSON.parse(localStorage.getItem("logs")) || []
-  )
-  const [studentList, setStudentList] = useState(
-    () => JSON.parse(localStorage.getItem("students")) || []
-  )
+  const [logList, setLogList] = useState(() => {
+    const savedLogs = JSON.parse(localStorage.getItem("logs"))
+    return savedLogs || []
+  })
   const [curStudent, setCurStudent] = useState(null)
   const [tab, setTab] = useState("home")
   const [openUserSetting, setOpenUserSetting] = useState(false)
@@ -353,45 +307,53 @@ export default function GlobalState({ children }) {
   }, [usersList])
 
   useEffect(() => {
-    localStorage.setItem("id", JSON.stringify(id))
-  }, [id])
+    if (logList !== JSON.parse(localStorage.getItem("logs"))) {
+      localStorage.setItem("logs", JSON.stringify(logList)) // Corrected here
+    }
+  }, [logList])
 
-  const addLog = (filename, totalPages, printerName, userName) => {
-    const log = new Log(id, filename, totalPages, printerName, userName)
-    setId((prevId) => prevId + 1)
+
+
+  const addLog = (filename, totalPages, printerName, studentID) => {
+    const log = new Log(filename, totalPages, printerName, studentID)
 
     const updatedLogList = [...logList, log]
     setLogList(updatedLogList)
 
     localStorage.setItem("logs", JSON.stringify(updatedLogList))
 
-    if (curStudent) {
-    
-      const updatedStudent = { ...curStudent }
-      updatedStudent.addLog(log)
+    // if (curStudent) {
+    //   const updatedStudent = { ...curStudent }
+    //   updatedStudent.addLog(log)
 
-      const updatedStudentList = studentList.map(
-        (student) =>
-          student.email === updatedStudent.email ? updatedStudent : student 
-      )
-      setStudentList(updatedStudentList)
-      localStorage.setItem("students", JSON.stringify(updatedStudentList))
-    }
+    //   const updatedStudentList = studentList.map((student) =>
+    //     student.email === updatedStudent.email ? updatedStudent : student
+    //   )
+    //   setStudentList(updatedStudentList)
+    //   localStorage.setItem("users", JSON.stringify(updatedStudentList)) // Corrected here
+    // }
   }
 
   const addStudent = (email) => {
-    const existingStudent = studentList.find(
+    const existingStudent = usersList.find(
       (student) => student.email === email
     )
     if (existingStudent) {
-      setCurStudent(existingStudent)
+      setUsersList(existingStudent)
     } else {
-      const newStudent = new Student(email) 
+      const newStudent = new Student(
+        email,
+        "New Student", //??
+        "Khoa học máy tính", // ??
+        "NewID", // ??
+        "Student123456", // ??
+        "student"
+      )
       const updatedStudentList = [...studentList, newStudent]
-      setStudentList(updatedStudentList)
+      setUsersList(updatedStudentList)
       setCurStudent(newStudent)
 
-      localStorage.setItem("students", JSON.stringify(updatedStudentList))
+      localStorage.setItem("users", JSON.stringify(updatedStudentList))
     }
   }
 
@@ -421,7 +383,7 @@ export default function GlobalState({ children }) {
     const updatedPrintersList = [...printersList, newPrinter]
     console.log(updatedPrintersList)
     setPrintersList(updatedPrintersList)
-    
+
     localStorage.setItem("printers", JSON.stringify(updatedPrintersList))
   }
 

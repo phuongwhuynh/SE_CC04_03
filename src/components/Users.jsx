@@ -1,25 +1,12 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { FaSearch, FaUserPlus, FaEdit, FaTrashAlt } from "react-icons/fa"
 import Modal from "./Modal"
 import "./Users.css"
+import { GlobalContext } from "../context"
 
 const Users = () => {
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      phone: "123-456-7890",
-      address: "123 Main St",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane@example.com",
-      phone: "987-654-3210",
-      address: "456 Elm St",
-    },
-  ])
+  const {usersList} = useContext(GlobalContext)
+  const [users, setUsers] = useState(usersList)
   const [searchTerm, setSearchTerm] = useState("")
   const [newUser, setNewUser] = useState({
     name: "",
@@ -61,13 +48,15 @@ const Users = () => {
     }
   }
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.phone.includes(searchTerm) ||
-      user.address.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredUsers = usersList
+    .filter((user) => user.email !== "spso@hcmut.edu.vn") 
+    .filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.phone.includes(searchTerm) ||
+        user.address.toLowerCase().includes(searchTerm.toLowerCase())
+    )
 
   return (
     <div className="app h-[80vh] overflow-y-scroll" id="style-15">
@@ -164,18 +153,18 @@ const Users = () => {
           <tr>
             <th>Tên</th>
             <th>Email</th>
-            <th>Số điện thoại</th>
-            <th>Địa chỉ</th>
+            <th>MSSV</th>
+            <th>Khoa</th>
             <th>Thao tác</th>
           </tr>
         </thead>
         <tbody>
           {filteredUsers.map((user) => (
-            <tr key={user.id}>
+            <tr key={user.studentID}>
               <td>{user.name}</td>
               <td>{user.email}</td>
-              <td>{user.phone}</td>
-              <td>{user.address}</td>
+              <td>{user.studentID}</td>
+              <td>{user.major}</td>
               <td>
                 <button
                   onClick={() => handleEditUser(user.id)}
