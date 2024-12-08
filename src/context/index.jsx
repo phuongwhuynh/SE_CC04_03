@@ -372,7 +372,7 @@ export default function GlobalState({ children }) {
     setLogList(updatedLogList)
 
     localStorage.setItem("logs", JSON.stringify(updatedLogList))
-
+  }
 
   const addOnePrinter = (
     name,
