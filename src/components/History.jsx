@@ -1,4 +1,7 @@
-import { useContext, useState } from "react";
+
+
+
+import { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "../context";
 import './Home.css';
 
@@ -6,9 +9,11 @@ import './Home.css';
 const rowsPerPage = 15;
 
 const OrderSection = () => {
-    const {logList}=useContext(GlobalContext)
+    const {logList, curStudent}=useContext(GlobalContext)
     const [currentPage, setCurrentPage] = useState(1);
-    const reversedLogList = [...logList].reverse(); 
+    const logStudent = logList.filter(log => log.userid === curStudent.studentID);
+    const reversedLogStudent = [...logStudent].reverse(); 
+
     // Helper function to calculate paginated data
     const paginateData = (data, page) => {
         const startIndex = (page - 1) * rowsPerPage;
@@ -16,8 +21,8 @@ const OrderSection = () => {
         return data.slice(startIndex, endIndex);
     };
 
-    const totalPages = Math.ceil(reversedLogList.length / rowsPerPage);
-    const currentData = paginateData(reversedLogList, currentPage);
+    const totalPages = Math.ceil(reversedLogStudent.length / rowsPerPage);
+    const currentData = paginateData(reversedLogStudent, currentPage);
 
     // Status class mapping
     const getStatusClass = (status) => {
@@ -52,7 +57,7 @@ const OrderSection = () => {
                         <th>Tài liệu</th>
                         <th>Số trang</th>
                         <th>Máy in</th>
-                        <th>ID sinh viên</th>
+                        {/* <th>ID sinh viên</th> */}
                         <th>Ngày</th>
                         <th>Trạng thái</th>
                     </tr>
@@ -64,7 +69,7 @@ const OrderSection = () => {
                             <td>{item.filename}</td>
                             <td>{item.totalPages}</td>
                             <td>{item.printerName}</td>
-                            <td>{item.userid}</td>
+                            {/* <td>{item.userid}</td> */}
                             <td>{item.dateTime}</td>
                             <td className={`status ${getStatusClass("Đã in")}`}>Đã in</td>
                         </tr>
@@ -94,26 +99,23 @@ const OrderSection = () => {
     );
 };
 
-const Footer = () => (
-    <div className="right-footer">
-        <div className="copyright">
-            <strong>Copyright © 2024</strong>{' '}
-            <span className="underline">Academic Affairs Office.</span> All rights reserved.
-        </div>
-        <div className="version">Version 2.4.0</div>
-    </div>
-);
-const Order = () => {
-    const { tab } = useContext(GlobalContext);
-    return (
-        <div style={{
-            display: 'flex', marginTop: 20, flexDirection: 'column'
-        }}>
-            {
-                // tab === 'order' && 
-                <OrderSection />}
-            {<Footer />}
-        </div >
-    );
+const History = () => {
+  const { tab, setCurStudent } = useContext(GlobalContext);
+  useEffect(() => {
+    console.log("useEffect triggered");
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+    if (savedUser) {
+      setCurStudent(savedUser);  // Sets the state once the data is available
+    }
+  }, []); 
+  return (
+      <div style={{
+          display: 'flex', marginTop: 20, flexDirection: 'column'
+      }}>
+          {
+              tab === 'history' && 
+              <OrderSection />}
+      </div >
+  );
 }
-export default Order
+export default History

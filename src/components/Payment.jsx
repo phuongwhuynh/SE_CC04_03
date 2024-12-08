@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FaStar, FaCashRegister, FaExclamationTriangle, FaCheckCircle } from "react-icons/fa";
 import successStar from '../assets/icons/successStar.png';
 import { useNavigate } from "react-router-dom";
@@ -89,7 +89,16 @@ const SuccessModal = ({ message, handleNavigation, total }) => (
 );
 
 const Payment = () => {
-  const {curStudent} = useContext(GlobalContext);
+  const {getUserBalance, updateUserBalance, setCurStudent} = useContext(GlobalContext);
+  useEffect(() => {
+    console.log("useEffect triggered");
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+    if (savedUser) {
+      setCurStudent(savedUser);  // Sets the state once the data is available
+    }
+  }, []); 
+
+
   const [quantities, setQuantities] = useState({
     package20: 1,
     package50: 0,
@@ -126,7 +135,7 @@ const Payment = () => {
       setIsModalOpen(true); // Open the error modal if all quantities are zero
     } else {
       setIsSuccessModalOpen(true);
-      if (curStudent) curStudent.addBalance(20*quantities.package20+50*quantities.package50+100*quantities.package100);
+      updateUserBalance(20*quantities.package20+50*quantities.package50+100*quantities.package100);
     }
   };
 
@@ -136,6 +145,7 @@ const Payment = () => {
   const handleNavigation = (path) => {
     navigate(path);
   }
+
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gray-100 flex flex-col w-full relative">
       {/* Upper Section */}
@@ -143,8 +153,12 @@ const Payment = () => {
         <span className="text-2xl font-bold px-2">THANH TOÁN ONLINE</span>
         <span className="text-xl font-semibold">SPSS</span>
       </div>
-      <span className="block text-l mx-12 mb-4"> Mua thêm giấy in tại đây</span>
-      
+      <div className="mx-12 my-4 text-l font-semibold">
+        <span className="mr-2">Số giấy in trong tài khoản:</span>
+        <span className="p-2 border border-black border-2 rounded-xl bg-white shadow-lg text-l font-bold ">
+           {getUserBalance()}
+        </span>
+      </div>
         {/* Bottom Section */}
       <div className="max-w-[72rem] w-full mx-auto mt-4">
         <div className="bg-white shadow-lg mx-8 rounded-lg">

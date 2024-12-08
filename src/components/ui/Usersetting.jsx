@@ -1,5 +1,5 @@
 import * as React from "react"
-
+import { useNavigate } from "react-router-dom"
 import { IoIosCamera } from "react-icons/io"
 import Dialog from "@mui/material/Dialog"
 import DialogActions from "@mui/material/DialogActions"
@@ -17,15 +17,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 })
 
 export default function UserSetting() {
-  const { openUserSetting, setOpenUserSetting } =
+  const { openUserSetting, setOpenUserSetting, setCurStudent } =
     React.useContext(GlobalContext)
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setOpenUserSetting(false)
   }
-
+  const handleLogout = () => {
+    console.log('logout');
+    localStorage.removeItem("user");
+    navigate("/login")
+  }
   return (
-
     <React.Fragment>
       <Dialog
         open={openUserSetting}
@@ -109,7 +113,9 @@ export default function UserSetting() {
         </DialogContent>
         <DialogActions className="flex justify-between w-full mt-4 setting-btn">
           <div className="flex justify-start w-full mb-4 ml-4">
-            <button className="text-white bg-red-600">Log out</button>
+            <button className="text-white bg-red-600" onClick={handleLogout}>
+              Đăng xuất
+            </button>
           </div>
           <div className="flex justify-end gap-4 mb-4 mr-4">
             <button

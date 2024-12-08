@@ -7,22 +7,34 @@ import { useNavigate } from "react-router-dom";
 // TO-DO: wrap necassary info of successfully printed document and push to global context 
 
 pdfjs.GlobalWorkerOptions.workerSrc = '/node_modules/pdfjs-dist/build/pdf.worker.mjs';
-const printers = [
-  { name: "Brother HL - L2321D (CS1-H1)", location: "Office 1", brand: "Brother" },
-  { name: "HP LaserJet Pro MFP", location: "Office 2", brand: "HP" },
-  { name: "Canon PIXMA", location: "Office 3", brand: "Canon" },
-  { name: "Epson EcoTank", location: "Office 4", brand: "Epson" }
-];
 
-const PrinterPropertiesModal = ({ propertiesModal, setOpenPropertiesModal, paperSize, setPaperSize }) => {
-  if (!propertiesModal) return null; // Return null if the modal is not open
-  return (
+const PrinterPropertiesModal = ({ propertiesModal, setOpenPropertiesModal, paperSize, setPaperSize, selectedPrinter }) => {
+  if (!propertiesModal) return null; 
+  else if (!selectedPrinter){
+    return (
+      <div
+        className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50"
+      >
+        <div className="bg-white p-4 rounded-lg shadow-lg w-1/3 max-w-sm text-center">
+          <h3 className="text-xl font-bold mb-4">Thông báo</h3>
+          <p>Xin hãy chọn máy in</p>
+          <button
+            className="mt-4 w-full py-2 bg-blue text-white rounded-md hover:bg-blue-200 active:bg-blue-300"
+            onClick={() => setOpenPropertiesModal(false)}
+          >
+            Đóng
+          </button>
+        </div>
+      </div>
+    );
+  }
+  else return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg w-1/3 p-6 flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <span className="text-xl font-semibold">
-            Brother HL - L2321D Properties Settings
+            Tùy chọn máy in {selectedPrinter.real_name}
           </span>
           {/* Close Button inside the Header */}
           <button
@@ -45,9 +57,11 @@ const PrinterPropertiesModal = ({ propertiesModal, setOpenPropertiesModal, paper
                 value={paperSize}
                 onChange={(e) => setPaperSize(e.target.value)}
               >
-                <option>A4</option>
-                <option>A3</option>
-                <option>Letter</option>
+                {selectedPrinter?.allowedPaperType?.map((paperType, index) => (
+                  <option key={index} value={paperType}>
+                    {paperType}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -109,8 +123,19 @@ const PrinterPropertiesModal = ({ propertiesModal, setOpenPropertiesModal, paper
   );
 };
  
-const PrinterSelectionModal = ({ isOpen, onClose, onSelect }) => {
+const PrinterSelectionModal = ({ isOpen, onClose, onSelect, printersList }) => {
+  const itemsPerPage = 5; // Number of items to show per page
+  const [currentPage, setCurrentPage] = useState(1);
+
   if (!isOpen) return null;
+
+  const totalPages = Math.ceil(printersList.length / itemsPerPage);
+
+  const currentItems = printersList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div
       className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50"
@@ -122,7 +147,7 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect }) => {
       >
         <h3 className="text-xl font-bold mb-4">Select a Printer</h3>
         <ul>
-          {printers.map((printer, index) => (
+          {currentItems.map((printer, index) => (
             <li
               key={index}
               className="border-b py-2 cursor-pointer hover:bg-gray-100"
@@ -132,13 +157,38 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect }) => {
               }}
             >
               <div>
-                <strong>{printer.name}</strong>
+                <strong>{printer.real_name}</strong>
               </div>
               <div>Location: {printer.location}</div>
-              <div>Brand: {printer.brand}</div>
             </li>
           ))}
         </ul>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center items-center mt-4">
+          <button
+            className={`px-3 py-1 bg-gray-200 rounded-md ${
+              currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-300"
+            }`}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span className="p-2">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className={`px-3 py-1 bg-gray-200 rounded-md ${
+              currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-300"
+            }`}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+
         <button
           className="mt-4 w-full py-2 bg-blue text-white rounded-md hover:bg-blue-200 active:bg-blue-300"
           onClick={onClose}
@@ -154,21 +204,23 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect }) => {
 const MessageModal = ({ message, isOpen, onClose, handleNavigation }) => {
   if (!isOpen) return null;
   else if (message==="Tài khoản của bạn không đủ số trang"){
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-semibold mb-4">Error</h2>
-        <div className="flex justify-center mb-4">
-          <FaExclamationCircle className="text-red-700" size={48} />
+    return(
+      <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+          <h2 className="text-xl font-semibold mb-4">Error</h2>
+          <div className="flex justify-center mb-4">
+            <FaExclamationCircle className="text-red-700" size={48} />
+          </div>
+          <span className="block text-center">{message}</span>
+          <button
+            className="mt-4 w-full p-2 bg-red-500 hover:bg-red-400 active:bg-red-300 text-white rounded-lg"
+            onClick={() => handleNavigation("/payment")}
+          >
+            Tới trang mua
+          </button>
         </div>
-        <span className="block text-center">{message}</span>
-        <button
-          className="mt-4 w-full p-2 bg-red-500 hover:bg-red-400 active:bg-red-300 text-white rounded-lg"
-          onClick={() => handleNavigation("/payment")}
-        >
-          Tới trang mua
-        </button>
       </div>
-    </div>
+    )
   }
   else return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
@@ -281,9 +333,17 @@ const PrintingProgressModal = ({ isOpen, onClose }) => {
 };
 
 const Print = () => {
+  
   const navigate = useNavigate(); 
-  const {printersList, addLog, curStudent}=useContext(GlobalContext)
-  const [selectedPrinter, setSelectedPrinter]=useState(null);
+  const {printersList, addLog, curStudent, getUserBalance, updateUserBalance, setCurStudent}=useContext(GlobalContext)
+  useEffect(() => {
+    console.log("useEffect triggered");
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+    if (savedUser) {
+      setCurStudent(savedUser);  // Sets the state once the data is available
+    }
+  }, []); 
+  const [selectedPrinter, setSelectedPrinter]=useState("");
   const [copies, setCopies] = useState(1);
   const [maxPages, setMaxPages]=useState(1);
   const [range, setRange] = useState("");
@@ -297,7 +357,6 @@ const Print = () => {
   const [pdfPages, setPdfPages] = useState([]);
   const [fileName, setFileName] = useState('');
   const [paperSize, setPaperSize]=useState('A4');
-  const [totalPages, setTotalPages]=useState(0);
 
   const [printerModal, setOpenPrinterModal]=useState(false);
   const [propertiesModal, setOpenPropertiesModal]=useState(false);
@@ -399,19 +458,29 @@ const Print = () => {
       setMessage("Các thông số cài đặt không hợp lệ");
       setIsModalOpen(true);
     } 
-    else if (curStudent && totalPages<curStudent.balance){
-      setMessage("Tài khoản của bạn không đủ số trang");
-      setIsModalOpen(true);
-    }
+
     else {
-      addLog(fileName, totalPages, selectedPrinter, curStudent? curStudent.username : "");
-      setMessage("Print successful!");
+      //addLog(fileName, totalPages, selectedPrinter, curStudent? curStudent.username : "");
       const parts=range.split("-");
-      if (parts.length===2){
-        setTotalPages((Number(parts[1])-Number(parts[0])+1)*copies);
+      let calculatedTotalPages = parts.length === 2
+        ? (Number(parts[1]) - Number(parts[0]) + 1) * copies
+        : copies;
+      calculatedTotalPages=Math.ceil(calculatedTotalPages / pagesPerSheet);
+      if (isDoubleSided) calculatedTotalPages=Math.ceil(calculatedTotalPages / 2);
+
+      console.log(calculatedTotalPages)
+      console.log(curStudent.studentID)
+      console.log(getUserBalance())
+      if (calculatedTotalPages>getUserBalance()){
+        setMessage("Tài khoản của bạn không đủ số trang");
+        setIsModalOpen(true);
       }
-      else setTotalPages(copies);
-      setOpenProgressModal(true);
+      else {
+        updateUserBalance(-calculatedTotalPages);
+        addLog(fileName, calculatedTotalPages, selectedPrinter.real_name + " - " + selectedPrinter.location, curStudent.studentID)
+        setMessage("Print successful!");
+        setOpenProgressModal(true);
+      }
     }
   };
 
@@ -422,23 +491,6 @@ const Print = () => {
   return (
     <div className="flex flex-col min-h-[calc(100vh-4rem)] w-full">
 
-      <PrinterPropertiesModal
-        propertiesModal={propertiesModal}
-        setOpenPropertiesModal={setOpenPropertiesModal}
-        paperSize={paperSize}
-        setPaperSize={setPaperSize}
-      />
-      <PrinterSelectionModal
-        isOpen={printerModal}
-        onClose={() => setOpenPrinterModal(false)}
-        onSelect={setSelectedPrinter}
-      />
-
-      <MessageModal message={message} isOpen={isModalOpen} onClose={handleCloseModal} handleNavigation={handleNavigation} />
-      <PrintingProgressModal
-        isOpen={progressModal}
-        onClose={closeModal}
-      />
 
       {/* Header */}
       <div className="mx-6 my-4">
@@ -464,7 +516,7 @@ const Print = () => {
             className="w-full h-8 border border-gray-300 rounded-sm shadow-md flex items-center justify-between p-2 cursor-pointer"
             onClick={() => setOpenPrinterModal(true)}
           >
-            <span>{selectedPrinter ? selectedPrinter.name : "Chọn máy in"}</span>
+            <span>{selectedPrinter? `${selectedPrinter.real_name} - ${selectedPrinter.location}` : "Chọn máy in"}</span>
             <span className="text-gray-400">&#x25BC;</span>
           </div>
           </div>
@@ -718,6 +770,32 @@ const Print = () => {
           </div>
         </div>
       </div>
+      
+      <PrinterPropertiesModal
+        propertiesModal={propertiesModal}
+        setOpenPropertiesModal={setOpenPropertiesModal}
+        paperSize={paperSize}
+        setPaperSize={setPaperSize}
+        selectedPrinter={selectedPrinter}
+      />
+      <PrinterSelectionModal
+        isOpen={printerModal}
+        onClose={() => setOpenPrinterModal(false)}
+        onSelect={setSelectedPrinter}
+        printersList={printersList}
+      />
+
+      <MessageModal 
+        message={message} 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+        handleNavigation={handleNavigation} 
+      />
+
+      <PrintingProgressModal
+        isOpen={progressModal}
+        onClose={closeModal}
+      />
     </div>
   );
 };
