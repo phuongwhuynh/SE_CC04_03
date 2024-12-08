@@ -299,6 +299,8 @@ export default function GlobalState({ children }) {
   const [pdfPages, setPdfPages] = useState([]);
   const [fileName, setFileName] = useState('');
   const [paperSize, setPaperSize]=useState();
+  const [radioOption, setRadioOption]=useState("")
+
   class Log {
     constructor(filename, totalPages, printerName, studentID) {
       this.filename = filename
@@ -465,7 +467,8 @@ export default function GlobalState({ children }) {
         fileType, setFileType,
         pdfPages, setPdfPages,
         fileName, setFileName,
-        paperSize, setPaperSize
+        paperSize, setPaperSize,
+        radioOption, setRadioOption
       }}
     >
       {children}
