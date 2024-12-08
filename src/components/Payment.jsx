@@ -76,12 +76,12 @@ const SuccessModal = ({ message, handleNavigation, total }) => (
     </div>
     <div className="flex justify-center mt-4">
       <button
-        onClick={() => handleNavigation("/")}
+        onClick={() => handleNavigation("")}
         className="bg-black text-white font-bold p-4 mx-20 mb-20 rounded-lg hover:bg-gray-700 active:bg-gray-500">
         Về trang chủ
       </button>
       <button
-        onClick={() => handleNavigation("/service")}
+        onClick={() => handleNavigation("service")}
         className="bg-blue text-white font-bold p-4 mx-20 mb-20 rounded-lg hover:bg-blue-200 active:bg-blue-300">
         Tiếp tục in tài liệu
       </button>
@@ -90,7 +90,7 @@ const SuccessModal = ({ message, handleNavigation, total }) => (
 );
 
 const Payment = () => {
-  const {getUserBalance, updateUserBalance, setCurStudent} = useContext(GlobalContext);
+  const {getUserBalance, updateUserBalance, setCurStudent, setTab} = useContext(GlobalContext);
   useEffect(() => {
     console.log("useEffect triggered");
     const savedUser = JSON.parse(localStorage.getItem("user"));
@@ -144,7 +144,9 @@ const Payment = () => {
     setIsModalOpen(false); 
   };
   const handleNavigation = (path) => {
-    navigate(path);
+    if (path==="") setTab("home");
+    else setTab(path);
+    navigate('/'+path);
   }
 
   return (
