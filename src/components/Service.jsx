@@ -3,6 +3,7 @@ import * as pdfjs from 'pdfjs-dist/build/pdf';
 import { FaExclamationCircle,FaCheckCircle    } from 'react-icons/fa';
 import { GlobalContext } from "../context"
 import { useNavigate } from "react-router-dom";
+import { radToDeg } from "three/src/math/MathUtils.js";
 
 // TO-DO: wrap necassary info of successfully printed document and push to global context 
 
@@ -359,7 +360,8 @@ const Print = () => {
           fileType, setFileType,
           pdfPages, setPdfPages,
           fileName, setFileName,
-          paperSize, setPaperSize}=useContext(GlobalContext)
+          paperSize, setPaperSize,
+          radioOption, setRadioOption}=useContext(GlobalContext)
   useEffect(() => {
     console.log("useEffect triggered");
     const savedUser = JSON.parse(localStorage.getItem("user"));
@@ -373,6 +375,7 @@ const Print = () => {
   const [message, setMessage] = useState(""); // To store the message to show in modal
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility
   const [progressModal, setOpenProgressModal]=useState(false);
+  
   const closeModal = () => setOpenProgressModal(false);
 
   const handleNavigation = (path) => {
@@ -637,13 +640,20 @@ const Print = () => {
                   type="radio"
                   name="pageRange"
                   className="mr-2"
-                  onFocus={()=> setRange(`1-${maxPages}`)}
+                  checked={radioOption==="tat ca"}
+                  onFocus={()=> {
+                    setRange(`1-${maxPages}`)
+                    setRadioOption("tat ca")
+                  }
+                  }
                 />
                 Tất cả trang
               </label>
               <label className="flex w-1/2 items-center">
                 <input type="radio" name="pageRange" id="pageRange2" className="mr-2" 
+                  checked={radioOption==="mot phan"}
                   onFocus={() => {
+                    setRadioOption("mot phan")
                     document.getElementById("pageRangeInput").focus(); // Focus the input when the radio button is focused
                   }}
                 />
@@ -651,7 +661,9 @@ const Print = () => {
                 <input
                   type="text"
                   id="pageRangeInput"
+                  defaultValue={range}
                   onChange={(e) => {
+                    setRadioOption("mot phan")
                     const value = e.target.value;
                     const isValid = /^\d+(-\d+)?$/.test(value);
                   
@@ -668,6 +680,7 @@ const Print = () => {
                     else setRange("");
                   }}
                   onFocus={(e) => {
+                    setRadioOption("mot phan")
                     document.getElementById("pageRange2").checked=true;
                     const value = e.target.value;
                     const isValid = /^\d+(-\d+)?$/.test(value);
