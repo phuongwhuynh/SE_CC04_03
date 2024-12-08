@@ -9,7 +9,7 @@ import StatusButton from "./StatusButton"
 import React from "react"
 
 const PrinterStatus = ({ model }) => {
-  const [selectedSizes, setSelectedSizes] = React.useState(["a3", "a4"])
+  const [selectedSizes, setSelectedSizes] = React.useState(["A3", "A4","B4","LETTER"])
 
   const handleCheckboxChange = (size) => {
     setSelectedSizes(
@@ -21,63 +21,48 @@ const PrinterStatus = ({ model }) => {
   }
 
   return (
-      <div className="text-[15px] flex flex-col gap-3">
-        <div className="flex items-center gap-6">
-          <p>Trạng thái: </p>
-          <StatusButton model={model} />
-        </div>
-        <div className="flex items-center gap-6">
-          <p>Nhãn hiệu máy: </p>
-          <p className="font-semibold">{model.real_name}</p>
-        </div>
-        <div className="flex items-center gap-6">
-          <p>Loại mực in đang sử dụng: </p>
-          <p className="font-semibold">{model.ink}</p>
-        </div>
-        <div>
-          <FormControl>
-            <FormLabel>Kích thước giấy cho phép hiện tại: </FormLabel>
-            <div>
+    <div className="text-[15px] flex flex-col gap-3">
+      <div className="flex items-center gap-6">
+        <p>Trạng thái: </p>
+        <StatusButton model={model} />
+      </div>
+      <div className="flex items-center gap-6">
+        <p>Nhãn hiệu máy: </p>
+        <p className="font-semibold">{model.real_name}</p>
+      </div>
+      <div className="flex items-center gap-6">
+        <p>Loại mực in đang sử dụng: </p>
+        <p className="font-semibold">{model.ink}</p>
+      </div>
+      <div>
+        <FormControl>
+          <FormLabel>Kích thước giấy cho phép hiện tại: </FormLabel>
+          <div>
+            {model.allowedPaperType.map((type) => (
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={selectedSizes.includes("a3")}
-                    onChange={() => handleCheckboxChange("a3")}
+                    checked={selectedSizes.includes(type.toUpperCase())}
+                    onChange={() => handleCheckboxChange(type.toUpperCase())}
                     sx={{
-                      color: selectedSizes.includes("a3")
-                        ? "bg-blue"
-                        : "inherit", 
-                      "&.Mui-checked": {
-                        color: "bg-blue", 
-                      },
-                    }}
-                  />
-                }
-                label="A3"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={selectedSizes.includes("a4")}
-                    onChange={() => handleCheckboxChange("a4")}
-                    sx={{
-                      color: selectedSizes.includes("a4")
+                      color: selectedSizes.includes(type.toUpperCase())
                         ? "bg-blue"
                         : "inherit",
                       "&.Mui-checked": {
-                        color: "bg-blue", 
+                        color: "bg-blue",
                       },
                     }}
                   />
                 }
-                label="A4"
+                label={type.toUpperCase()}
               />
-            </div>
-          </FormControl>
-        </div>
-        <div className="flex items-center gap-4">
-          <p>Khung giờ hoạt động quy định: </p>
-          {/* <div className="max-w-[16rem] grid grid-cols-2 gap-4 mb-2">
+            ))}
+          </div>
+        </FormControl>
+      </div>
+      <div className="flex items-center gap-4">
+        <p>Khung giờ hoạt động quy định: </p>
+        {/* <div className="max-w-[16rem] grid grid-cols-2 gap-4 mb-2">
           <div>
             <label
               for="start-time"
@@ -147,55 +132,77 @@ const PrinterStatus = ({ model }) => {
             </div>
           </div>
         </div> */}
-          <div className="flex gap-2 font-semibold">
-            <p className="border-b-2">7:00 AM</p>
-            <p>-</p>
-            <p className="border-b-2">5:00 PM</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <p>Số trang giấy tối đa cho phép mỗi lần in: </p>
-          <div className="flex gap-2 font-semibold">
-            <p className="border-b-2">100 A4</p>
-            <p>/</p>
-            <p className="border-b-2">50 A3</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <p>Số trang giấy còn lại hiện tại : </p>
-          <div className="flex gap-2 font-semibold">
-            <p className="border-b-2">{`${model.page_left[0]} A4`}</p>
-            <p>/</p>
-            <p className="border-b-2">{`${model.page_left[1]} A4`}</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <p>Loại file đang hỗ trợ :</p>
-          <div className="flex gap-4">
-            {model.file_type.map((type, idx) => (
-              <div
-                key={idx}
-                className="border-2 px-2 rounded-sm font-semibold"
-                style={{
-                  boxShadow:
-                    "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
-                }}
-              >
-                {type}
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <p>Số lượt đã in: </p>
-          <p className="font-semibold text-[#03346E] bg-[rgba(211,226,255,0.8)] py-1 px-2 rounded-md">
-            45
-          </p>
+        <div className="flex gap-2 font-semibold">
+          <p className="border-b-2">7:00 AM</p>
+          <p>-</p>
+          <p className="border-b-2">5:00 PM</p>
         </div>
       </div>
+
+      <div className="flex items-center gap-4">
+        <p>Số trang giấy tối đa cho phép mỗi lần in: </p>
+        <div className="flex gap-2 font-semibold">
+          <p className="border-b-2">100 A4</p>
+          <p>/</p>
+          <p className="border-b-2">50 A3</p>
+          <p>/</p>
+          <p className="border-b-2">80 B4</p>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <p>Số trang giấy còn lại hiện tại: </p>
+        <div className="flex gap-2 font-semibold">
+          <p className="border-b-2">{`${
+            model.page_left[0]
+          } ${model.allowedPaperType[0].toUpperCase()}`}</p>
+          <p>/</p>
+          <p className="border-b-2">{`${
+            model.page_left[1]
+          } ${model.allowedPaperType[1].toUpperCase()}`}</p>
+          {model.allowedPaperType.length > 2 && (
+            <>
+              <p>/</p>
+              <p className="border-b-2">{`${
+                model.page_left[2]
+              } ${model.allowedPaperType[2].toUpperCase()}`}</p>
+            </>
+          )}
+          {model.allowedPaperType.length > 3 && (
+            <>
+              <p>/</p>
+              <p className="border-b-2">{`${
+                model.page_left[3]
+              } ${model.allowedPaperType[3].toUpperCase()}`}</p>
+            </>
+          )}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <p>Loại file đang hỗ trợ :</p>
+        <div className="flex gap-4">
+          {model.file_type.map((type, idx) => (
+            <div
+              key={idx}
+              className="border-2 px-2 rounded-sm font-semibold"
+              style={{
+                boxShadow:
+                  "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px",
+              }}
+            >
+              {type}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex items-center gap-4">
+        <p>Số lượt đã in: </p>
+        <p className="font-semibold text-[#03346E] bg-[rgba(211,226,255,0.8)] py-1 px-2 rounded-md">
+          {model.printed}
+        </p>
+      </div>
+    </div>
   )
 }
 

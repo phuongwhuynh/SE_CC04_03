@@ -3,23 +3,20 @@ import { FaPlus } from "react-icons/fa6"
 import { FiFilter } from "react-icons/fi"
 import "./custom-theme.css"
 import Printer from "./ui/Printer"
-import { printers } from "../utils/utils"
 import { GlobalContext } from "../context"
 import CustomSelect from "./Filter"
 
 export const Printers = () => {
-  const { setAddPrinter } = useContext(GlobalContext)
-  const [prints, setPrints] = useState(printers)
-
+  const { setAddPrinter, printersList } = useContext(GlobalContext)
+  const [prints, setPrints] = useState(printersList)
 
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [selectedType, setSelectedType] = useState(null)
   const [selectedStatus, setSelectedStatus] = useState(null)
 
-
   useEffect(() => {
     const filterPrinters = () => {
-      let filteredPrinters = printers 
+      let filteredPrinters = printersList // Use the global context's printersList
 
       if (selectedLocation && selectedLocation !== "All") {
         filteredPrinters = filteredPrinters.filter(
@@ -43,12 +40,13 @@ export const Printers = () => {
     }
 
     filterPrinters()
-  }, [selectedLocation, selectedType, selectedStatus]) 
+  }, [selectedLocation, selectedType, selectedStatus, printersList]) // Add printersList to dependencies
 
   const resetFilters = () => {
     setSelectedLocation(null)
     setSelectedType(null)
     setSelectedStatus(null)
+    setPrints(printersList) // Reset prints to all printers
   }
 
   const printerStatuses = [
@@ -67,7 +65,9 @@ export const Printers = () => {
   const printerTypes = [
     { value: "All", label: "All" },
     ...[
-      ...new Set(printers.map((printer) => printer.real_name.split(" ")[0])),
+      ...new Set(
+        printersList.map((printer) => printer.real_name.split(" ")[0])
+      ),
     ].map((item) => ({ value: item, label: item })),
   ]
 
@@ -105,7 +105,7 @@ export const Printers = () => {
             options={printerLocations}
             value={selectedLocation}
             placeholder="Vị trí máy in"
-            onChange={(option) => setSelectedLocation(option?.value||"All")}
+            onChange={(option) => setSelectedLocation(option?.value || "All")}
           />
         </div>
         <div className="border border-r-gray-400 h-full w-full flex items-center justify-center">
@@ -126,9 +126,11 @@ export const Printers = () => {
         </div>
       </div>
       <div className="flex flex-wrap justify-between gap-y-10 mx-2 mr-10">
-        {prints.length?prints.map((printer, idx) => (
-          <Printer model={printer} key={idx} />
-        )):<p className="ml-2 font-semibold text-xl">No printer found</p>}
+        {prints.length ? (
+          prints.map((printer, idx) => <Printer model={printer} key={idx} />)
+        ) : (
+          <p className="ml-2 font-semibold text-xl">No printer found</p>
+        )}
       </div>
     </div>
   )

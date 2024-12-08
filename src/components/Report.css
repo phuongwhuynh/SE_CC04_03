@@ -1,0 +1,141 @@
+/* Overall container styles */
+.report-container {
+    padding: 30px;
+    background-color: #fafafa;
+    font-family: 'Arial', sans-serif;
+}
+  
+.breadcrumb {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 15px;
+}
+  
+.page-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+}
+  
+.summary-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+  
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1;
+    margin: 0 15px;
+    position: relative;
+}
+  
+.card .icon {
+    font-size: 36px;
+    color: #4CAF50;
+    margin-bottom: 15px;
+}
+  
+.amount {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+  
+.label {
+    display: block;
+    margin-top: 5px;
+    color: #777;
+}
+  
+.report-details {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+  
+.section-title {
+    font-size: 22px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+  
+.weekly-revenue {
+    list-style-type: none;
+    padding: 0;
+}
+  
+.weekly-revenue li {
+    font-size: 18px;
+    color: #555;
+    margin: 8px 0;
+}
+  
+.revenue-total {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.bar {
+    width: 850px;
+}
+  
+.recent-orders {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+  
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+  
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+  
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+  
+@media (max-width: 768px) {
+    .summary-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+  
+    .card {
+        margin: 10px 0;
+        text-align: center;
+    }
+  
+    .breadcrumb {
+        font-size: 12px;
+    }
+}
+  
+.chart-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 40px;
+    margin-top: 40px;
+    max-width: 800px;
+}
+  
+.chart-container {
+    flex: 1;
+    margin: 0 15px;
+}
