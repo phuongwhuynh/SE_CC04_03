@@ -10,7 +10,8 @@ import { GlobalContext } from "../../context"
 import Instruction from "./Instruction"
 import { getUserRole } from "../../utils/utils"
 import { AiFillPrinter } from "react-icons/ai"
-import { MdOutlinePayment  } from "react-icons/md"
+import { MdOutlinePayment } from "react-icons/md"
+import { MdHistoryEdu } from "react-icons/md"
 
 
 const SidebarContainer = ({role}) => {
@@ -62,7 +63,8 @@ const SidebarContainer = ({role}) => {
     },
     {
       title: "Lịch sử in",
-      icon: <MdReceiptLong />,
+      icon: <MdHistoryEdu />,
+
       to: "/history",
       indicate: "history",
     },

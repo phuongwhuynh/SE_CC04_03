@@ -226,6 +226,8 @@ const defaultUsers = [
     studentID: "2252022",
     password: "Student123456",
     role: "student",
+    log: [],
+
     balance: 100,
   },
   {
@@ -235,15 +237,7 @@ const defaultUsers = [
     studentID: "2212787",
     password: "Student123456",
     role: "student",
-    balance: 100,
-  },
-  {
-    email: "phuong.huynhlan@hcmut.edu.vn",
-    name: "HUỲNH LAN PHƯƠNG",
-    major: "Khoa học máy tính",
-    studentID: "2252654",
-    password: "Student123456",
-    role: "student",
+    log: [],
     balance: 100,
   },
   {
@@ -253,7 +247,15 @@ const defaultUsers = [
     studentID: "2252274",
     password: "Student123456",
     role: "student",
-    balance: 100,
+  },
+  {
+    email: "phuong.huynhlan@hcmut.edu.vn",
+    name: "HUỲNH LAN PHƯƠNG",
+    major: "Khoa học máy tính",
+    studentID: "2252654",
+    password: "Student123456",
+    role: "student",
+
   },
   {
     email: "khoa.huynh314@hcmut.edu.vn",
@@ -262,17 +264,17 @@ const defaultUsers = [
     studentID: "2211591",
     password: "Student123456",
     role: "student",
-    balance: 100,
-  }, 
+  },
   {
     email: "spso@hcmut.edu.vn",
     name: "HCMUT SPSO",
-    major: "Khoa hoc may tinh",
+    major: "SPSO",
+
     studentID: "",
     password: "Spso123456",
     role: "spso",
   }
-  // More users...
+
 ]
 
 export default function GlobalState({ children }) {
@@ -325,6 +327,7 @@ export default function GlobalState({ children }) {
     const savedLogs = JSON.parse(localStorage.getItem("logs"))
     return savedLogs || []
   })
+
   const [curStudent, setCurStudent] = useState(() => {
     const savedUser = JSON.parse(localStorage.getItem("user"))
     return savedUser || null
@@ -355,6 +358,7 @@ export default function GlobalState({ children }) {
   }, [logList])
 
 
+
   useEffect(() => {
     if (curStudent !== JSON.parse(localStorage.getItem("user"))) {
       localStorage.setItem("user", JSON.stringify(curStudent))
@@ -369,31 +373,6 @@ export default function GlobalState({ children }) {
 
     localStorage.setItem("logs", JSON.stringify(updatedLogList))
 
-
-  }
-
-  // const addStudent = (email) => {
-  //   const existingStudent = usersList.find(
-  //     (student) => student.email === email
-  //   )
-  //   if (existingStudent) {
-  //     setUsersList(existingStudent)
-  //   } else {
-  //     const newStudent = new Student(
-  //       email,
-  //       "New Student", //??
-  //       "Khoa học máy tính", // ??
-  //       "NewID", // ??
-  //       "Student123456", // ??
-  //       "student"
-  //     )
-  //     const updatedStudentList = [...studentList, newStudent]
-  //     setUsersList(updatedStudentList)
-  //     setCurStudent(newStudent)
-
-  //     localStorage.setItem("users", JSON.stringify(updatedStudentList))
-  //   }
-  // }
 
   const addOnePrinter = (
     name,
