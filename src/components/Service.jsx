@@ -159,7 +159,10 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect, printersList }) => {
               <div>
                 <strong>{printer.real_name}</strong>
               </div>
-              <div>Địa điểm: {printer.location}</div>
+              <div className="flex justify-between">
+                <span>Địa điểm: {printer.location} </span>
+                <span> Tòa nhà: {printer.building}</span>
+              </div>
             </li>
           ))}
         </ul>
@@ -341,7 +344,6 @@ const PrintingProgressModal = ({ isOpen, onClose }) => {
 };
 
 const Print = () => {
-
   const navigate = useNavigate(); 
   const {printersList, addLog, curStudent, getUserBalance, updateUserBalance, setCurStudent, setTab}=useContext(GlobalContext)
   const { selectedPrinter, setSelectedPrinter,
@@ -474,7 +476,6 @@ const Print = () => {
       let calculatedTotalPages = parts.length === 2
         ? (Number(parts[1]) - Number(parts[0]) + 1) * copies
         : copies;
-      calculatedTotalPages=Math.ceil(calculatedTotalPages / pagesPerSheet);
       if (isDoubleSided) calculatedTotalPages=Math.ceil(calculatedTotalPages / 2);
 
       console.log(calculatedTotalPages)
@@ -486,7 +487,7 @@ const Print = () => {
       }
       else {
         updateUserBalance(-calculatedTotalPages);
-        addLog(fileName, calculatedTotalPages, selectedPrinter.real_name + " - " + selectedPrinter.location, curStudent.studentID)
+        addLog(fileName, calculatedTotalPages, selectedPrinter.real_name + " - " + selectedPrinter.location +" (" +selectedPrinter.building +")", curStudent.studentID)
         setMessage("Print successful!");
         setOpenProgressModal(true);
       }
@@ -498,7 +499,7 @@ const Print = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-4rem)] w-full">
+    <div className="flex flex-col w-full h-[80vh] overflow-y-scroll" id="style-15">
 
 
       {/* Header */}
@@ -532,7 +533,7 @@ const Print = () => {
             className="w-full h-8 border border-gray-300 rounded-sm shadow-md flex items-center justify-between p-2 cursor-pointer"
             onClick={() => setOpenPrinterModal(true)}
           >
-            <span>{selectedPrinter? `${selectedPrinter.real_name} - ${selectedPrinter.location}` : "Chọn máy in"}</span>
+            <span>{selectedPrinter? `${selectedPrinter.real_name} - ${selectedPrinter.location} (${selectedPrinter.building})` : "Chọn máy in"}</span>
             <span className="text-gray-400">&#x25BC;</span>
           </div>
           </div>

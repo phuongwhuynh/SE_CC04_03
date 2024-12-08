@@ -132,6 +132,7 @@ export const Printers = () => {
           <p className="ml-2 font-semibold text-xl">No printer found</p>
         )}
       </div>
+
     </div>
   )
 }

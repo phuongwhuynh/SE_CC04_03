@@ -1,7 +1,7 @@
 
 const WelcomePage = () => {
     return (
-      <div>UserHome</div>
+      <div>Welcome</div>
     )
   }
   export default WelcomePage

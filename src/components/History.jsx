@@ -110,6 +110,7 @@ const History = () => {
     }
   }, []); 
   return (
+    <div className="h-[80vh] overflow-y-scroll" id="style-15">
       <div style={{
           display: 'flex', marginTop: 20, flexDirection: 'column'
       }}>
@@ -117,6 +118,7 @@ const History = () => {
               tab === 'history' && 
               <OrderSection />}
       </div >
+    </div>
   );
 }
 export default History

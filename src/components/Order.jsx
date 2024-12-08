@@ -106,6 +106,7 @@ const Footer = () => (
 const Order = () => {
     const { tab } = useContext(GlobalContext);
     return (
+        <div className="h-[80vh] overflow-y-scroll" id="style-15">
         <div style={{
             display: 'flex', marginTop: 20, flexDirection: 'column'
         }}>
@@ -114,6 +115,7 @@ const Order = () => {
                 <OrderSection />}
             {<Footer />}
         </div >
+        </div>
     );
 }
 export default Order
