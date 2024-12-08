@@ -1,0 +1,175 @@
+/* Tổng quan */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+.div1 {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start; /* Canh trên để không bị thừa không gian */
+}
+.div2 {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start; /* Canh trên */
+}
+.user-home {
+  margin: 0 auto;
+  padding: 1.25rem;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.header {
+  font-size: xx-large;
+  text-align: center;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 1.25rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.login-info {
+  padding: 0.525rem 0.626rem;
+  font-size: 0.9rem;
+  color: white;
+  background-color: #024caa;
+  border-radius: 0.625rem;
+}
+
+.login-info strong {
+  color: white;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.weekly-activity {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 2;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 18.75rem;
+}
+.summary {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 18.75rem;
+}
+.usage-statistics {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 18.75rem;
+}
+.chart canvas {
+  object-fit: cover;
+  max-height: 30rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 1.25rem;
+}
+
+.notifications {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notifications ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notifications li {
+  padding: 0.625rem;
+  margin: 0.625rem 0;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.notifications li.error {
+  background-color: #fdecea;
+  color: #d32f2f;
+}
+
+.notifications li.success {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.progress-card {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  gap: 10px;
+}
+
+.progress-icon {
+  font-size: 2rem;
+  margin-right: 10px;
+}
+
+.progress-details {
+  flex-grow: 1;
+}
+
+.progress-bar-container {
+  position: relative;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.progress-bar-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.progress-bar {
+  position: absolute;
+  height: 100%;
+  border-radius: 5px;
+  z-index: 2;
+}
