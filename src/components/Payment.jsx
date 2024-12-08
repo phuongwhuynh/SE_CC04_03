@@ -81,7 +81,7 @@ const SuccessModal = ({ message, handleNavigation, total }) => (
         Về trang chủ
       </button>
       <button
-        onClick={() => handleNavigation("/print")}
+        onClick={() => handleNavigation("/service")}
         className="bg-blue text-white font-bold p-4 mx-20 mb-20 rounded-lg hover:bg-blue-200 active:bg-blue-300">
         Tiếp tục in tài liệu
       </button>
