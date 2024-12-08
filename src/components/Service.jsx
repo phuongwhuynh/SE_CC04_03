@@ -1,36 +1,40 @@
-import React, { useState, useEffect } from "react"
-import * as pdfjs from "pdfjs-dist/build/pdf"
-import { FaExclamationCircle, FaCheckCircle } from "react-icons/fa"
+import React, { useState, useEffect, useContext } from "react";
+import * as pdfjs from 'pdfjs-dist/build/pdf';
+import { FaExclamationCircle,FaCheckCircle    } from 'react-icons/fa';
+import { GlobalContext } from "../context"
+import { useNavigate } from "react-router-dom";
 
-// TO-DO: wrap necassary info of successfully printed document and push to global context
+// TO-DO: wrap necassary info of successfully printed document and push to global context 
 
-pdfjs.GlobalWorkerOptions.workerSrc =
-  "/node_modules/pdfjs-dist/build/pdf.worker.mjs"
-const printers = [
-  {
-    name: "Brother HL - L2321D (CS1-H1)",
-    location: "Office 1",
-    brand: "Brother",
-  },
-  { name: "HP LaserJet Pro MFP", location: "Office 2", brand: "HP" },
-  { name: "Canon PIXMA", location: "Office 3", brand: "Canon" },
-  { name: "Epson EcoTank", location: "Office 4", brand: "Epson" },
-]
+pdfjs.GlobalWorkerOptions.workerSrc = '/node_modules/pdfjs-dist/build/pdf.worker.mjs';
 
-const PrinterPropertiesModal = ({
-  propertiesModal,
-  setOpenPropertiesModal,
-  paperSize,
-  setPaperSize,
-}) => {
-  if (!propertiesModal) return null // Return null if the modal is not open
-  return (
+const PrinterPropertiesModal = ({ propertiesModal, setOpenPropertiesModal, paperSize, setPaperSize, selectedPrinter }) => {
+  if (!propertiesModal) return null; 
+  else if (!selectedPrinter){
+    return (
+      <div
+        className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50"
+      >
+        <div className="bg-white p-4 rounded-lg shadow-lg w-1/3 max-w-sm text-center">
+          <h3 className="text-xl font-bold mb-4">Thông báo</h3>
+          <p>Xin hãy chọn máy in</p>
+          <button
+            className="mt-4 w-full py-2 bg-blue text-white rounded-md hover:bg-blue-200 active:bg-blue-300"
+            onClick={() => setOpenPropertiesModal(false)}
+          >
+            Đóng
+          </button>
+        </div>
+      </div>
+    );
+  }
+  else return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg w-1/3 p-6 flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <span className="text-xl font-semibold">
-            Brother HL - L2321D Properties Settings
+            Tùy chọn máy in {selectedPrinter.real_name}
           </span>
           {/* Close Button inside the Header */}
           <button
@@ -53,18 +57,18 @@ const PrinterPropertiesModal = ({
                 value={paperSize}
                 onChange={(e) => setPaperSize(e.target.value)}
               >
-                <option>A4</option>
-                <option>A3</option>
-                <option>Letter</option>
+                {selectedPrinter?.allowedPaperType?.map((paperType, index) => (
+                  <option key={index} value={paperType}>
+                    {paperType}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
 
           {/* Printer Features Section */}
           <div>
-            <h3 className="text-gray-800 font-medium mb-2">
-              Printer Features:
-            </h3>
+            <h3 className="text-gray-800 font-medium mb-2">Printer Features:</h3>
             <ul className="space-y-2">
               <li className="flex justify-between">
                 <span className="text-gray-700">Print Quality: </span>
@@ -116,11 +120,22 @@ const PrinterPropertiesModal = ({
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
+ 
+const PrinterSelectionModal = ({ isOpen, onClose, onSelect, printersList }) => {
+  const itemsPerPage = 5; // Number of items to show per page
+  const [currentPage, setCurrentPage] = useState(1);
 
-const PrinterSelectionModal = ({ isOpen, onClose, onSelect }) => {
-  if (!isOpen) return null
+  if (!isOpen) return null;
+
+  const totalPages = Math.ceil(printersList.length / itemsPerPage);
+
+  const currentItems = printersList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div
       className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50"
@@ -132,23 +147,48 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect }) => {
       >
         <h3 className="text-xl font-bold mb-4">Select a Printer</h3>
         <ul>
-          {printers.map((printer, index) => (
+          {currentItems.map((printer, index) => (
             <li
               key={index}
               className="border-b py-2 cursor-pointer hover:bg-gray-100"
               onClick={() => {
-                onSelect(printer)
-                onClose()
+                onSelect(printer);
+                onClose();
               }}
             >
               <div>
-                <strong>{printer.name}</strong>
+                <strong>{printer.real_name}</strong>
               </div>
               <div>Location: {printer.location}</div>
-              <div>Brand: {printer.brand}</div>
             </li>
           ))}
         </ul>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center items-center mt-4">
+          <button
+            className={`px-3 py-1 bg-gray-200 rounded-md ${
+              currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-300"
+            }`}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span className="p-2">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className={`px-3 py-1 bg-gray-200 rounded-md ${
+              currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-300"
+            }`}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+
         <button
           className="mt-4 w-full py-2 bg-blue text-white rounded-md hover:bg-blue-200 active:bg-blue-300"
           onClick={onClose}
@@ -157,12 +197,32 @@ const PrinterSelectionModal = ({ isOpen, onClose, onSelect }) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-const MessageModal = ({ message, isOpen, onClose }) => {
-  if (!isOpen) return null
-  return (
+
+const MessageModal = ({ message, isOpen, onClose, handleNavigation }) => {
+  if (!isOpen) return null;
+  else if (message==="Tài khoản của bạn không đủ số trang"){
+    return(
+      <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+          <h2 className="text-xl font-semibold mb-4">Error</h2>
+          <div className="flex justify-center mb-4">
+            <FaExclamationCircle className="text-red-700" size={48} />
+          </div>
+          <span className="block text-center">{message}</span>
+          <button
+            className="mt-4 w-full p-2 bg-red-500 hover:bg-red-400 active:bg-red-300 text-white rounded-lg"
+            onClick={() => handleNavigation("/payment")}
+          >
+            Tới trang mua
+          </button>
+        </div>
+      </div>
+    )
+  }
+  else return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-xl font-semibold mb-4">Error</h2>
@@ -178,51 +238,51 @@ const MessageModal = ({ message, isOpen, onClose }) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const PrintingProgressModal = ({ isOpen, onClose }) => {
-  const [progress, setProgress] = useState(0)
-  const [step, setStep] = useState(0)
+  const [progress, setProgress] = useState(0);
+  const [step, setStep] = useState(0); 
 
   useEffect(() => {
     if (isOpen) {
       const interval = setInterval(() => {
         setProgress((prev) => {
           if (prev < 100) {
-            return prev + 10
+            return prev + 10; 
           }
-          clearInterval(interval)
-          return prev
-        })
-      }, 500)
+          clearInterval(interval); 
+          return prev;
+        });
+      }, 500);
 
-      return () => clearInterval(interval)
+      return () => clearInterval(interval);
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   useEffect(() => {
     if (progress >= 0 && progress < 25) {
-      setStep(0)
+      setStep(0); 
     } else if (progress >= 25 && progress < 50) {
-      setStep(1)
+      setStep(1); 
     } else if (progress >= 50 && progress < 75) {
-      setStep(2)
+      setStep(2); 
     } else if (progress >= 75 && progress < 100) {
-      setStep(3)
+      setStep(3); 
     }
-  }, [progress])
+  }, [progress]);
 
   const steps = [
-    "Kiểm tra yêu cầu in",
-    "Gửi yêu cầu cho máy in",
-    "Máy in bắt đầu in",
-    "In xong",
-  ]
+    'Kiểm tra yêu cầu in',
+    'Gửi yêu cầu cho máy in',
+    'Máy in bắt đầu in',
+    'In xong',
+  ];
   const handleClose = () => {
-    onClose()
-    setProgress(0)
-  }
+    onClose();
+    setProgress(0);
+  };
 
   return (
     <>
@@ -232,21 +292,17 @@ const PrintingProgressModal = ({ isOpen, onClose }) => {
             {progress === 100 ? (
               <>
                 {/* Only show print successful and icon when progress reaches 100% */}
-                <span className="block text-xl font-semibold mb-4 text-center">
-                  Print Successful
-                </span>
+                <span className="block text-xl font-semibold mb-4 text-center">Print Successful</span>
                 <div className="flex justify-center items-center mb-4 my-4">
-                  <div className="h-12 w-12 bg-green-500 rounded-full flex items-center justify-center text-white">
-                    <FaCheckCircle size={36} />
-                  </div>
+                <div className="h-12 w-12 bg-green-500 rounded-full flex items-center justify-center text-white">
+                  <FaCheckCircle size={36} /> 
+                </div>
                 </div>
               </>
             ) : (
               <>
                 {/* Show progress steps until progress reaches 100% */}
-                <span className="block text-xl font-semibold mb-4 text-center">
-                  Printing
-                </span>
+                <span className="block text-xl font-semibold mb-4 text-center">Printing</span>
 
                 <p className="my-4 text-l font-bold">{steps[step]}</p>
                 <div className="relative mb-4">
@@ -273,204 +329,208 @@ const PrintingProgressModal = ({ isOpen, onClose }) => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-const Service = () => {
-  const [selectedPrinter, setSelectedPrinter] = useState(null)
-  const [copies, setCopies] = useState(1)
-  const [maxPages, setMaxPages] = useState(1)
-  const [range, setRange] = useState("")
-  const [pagesPerSheet, setPagesPerSheet] = useState(1)
-  const [orientation, setOrientation] = useState("Dọc")
-  const [margin, setMargin] = useState(0.02)
-  const [isDoubleSided, setIsDoubleSided] = useState(false)
-  const [flipOption, setFlipOption] = useState("dai")
-  const [filePreview, setFilePreview] = useState(null)
-  const [fileType, setFileType] = useState(null)
-  const [pdfPages, setPdfPages] = useState([])
-  const [fileName, setFileName] = useState("")
-  const [paperSize, setPaperSize] = useState("A4")
-  const [totalPages, setTotalPages] = useState(0)
+const Print = () => {
+  
+  const navigate = useNavigate(); 
+  const {printersList, addLog, curStudent, getUserBalance, updateUserBalance, setCurStudent}=useContext(GlobalContext)
+  useEffect(() => {
+    console.log("useEffect triggered");
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+    if (savedUser) {
+      setCurStudent(savedUser);  // Sets the state once the data is available
+    }
+  }, []); 
+  const [selectedPrinter, setSelectedPrinter]=useState("");
+  const [copies, setCopies] = useState(1);
+  const [maxPages, setMaxPages]=useState(1);
+  const [range, setRange] = useState("");
+  const [pagesPerSheet, setPagesPerSheet] = useState(1);
+  const [orientation, setOrientation] = useState("Dọc");
+  const [margin, setMargin] = useState(0.02);
+  const [isDoubleSided, setIsDoubleSided] = useState(false);
+  const [flipOption, setFlipOption] = useState("dai");
+  const [filePreview, setFilePreview] = useState(null);
+  const [fileType, setFileType] = useState(null);
+  const [pdfPages, setPdfPages] = useState([]);
+  const [fileName, setFileName] = useState('');
+  const [paperSize, setPaperSize]=useState('A4');
 
-  const [printerModal, setOpenPrinterModal] = useState(false)
-  const [propertiesModal, setOpenPropertiesModal] = useState(false)
-  const [message, setMessage] = useState("") // To store the message to show in modal
-  const [isModalOpen, setIsModalOpen] = useState(false) // Modal visibility
-  const [progressModal, setOpenProgressModal] = useState(false)
-  const closeModal = () => setOpenProgressModal(false)
+  const [printerModal, setOpenPrinterModal]=useState(false);
+  const [propertiesModal, setOpenPropertiesModal]=useState(false);
+  const [message, setMessage] = useState(""); // To store the message to show in modal
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility
+  const [progressModal, setOpenProgressModal]=useState(false);
+  const closeModal = () => setOpenProgressModal(false);
 
+  const handleNavigation = (path) => {
+    navigate(path);
+  }
   const handleFileChange = (event) => {
-    const file = event.target.files[0]
+    const file = event.target.files[0];
     if (file) {
-      setFileName(file.name)
-      setFileType(file.type)
-      setRange("")
-      const radioButtons = document.querySelectorAll(
-        'input[type="radio"][name="pageRange"]'
-      )
+      setFileName(file.name);
+      setFileType(file.type);
+      setRange("");
+      const radioButtons = document.querySelectorAll('input[type="radio"][name="pageRange"]');
       radioButtons.forEach((radioButton) => {
-        radioButton.checked = false
-      })
-      const reader = new FileReader()
+        radioButton.checked = false; 
+      });
+      const reader = new FileReader();
       reader.onloadend = () => {
         if (file.type.startsWith("image")) {
-          setMaxPages(1)
-          setFilePreview(reader.result)
+          setMaxPages(1);
+          setFilePreview(reader.result);
         } else if (file.type === "application/pdf") {
-          renderPDF(reader.result) // Render PDF preview
+          renderPDF(reader.result); // Render PDF preview
         }
-      }
-      reader.readAsDataURL(file)
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleDrop = (event) => {
-    event.preventDefault()
-    const file = event.dataTransfer.files[0]
+    event.preventDefault();
+    const file = event.dataTransfer.files[0];
     if (file) {
-      setFileType(file.type)
-      setFileName(file.name)
-      const reader = new FileReader()
+      setFileType(file.type);
+      setFileName(file.name);
+      const reader = new FileReader();
       reader.onloadend = () => {
         if (file.type.startsWith("image")) {
-          setMaxPages(1)
-          setFilePreview(reader.result)
+          setMaxPages(1);
+          setFilePreview(reader.result);
         } else if (file.type === "application/pdf") {
-          renderPDF(reader.result)
+          renderPDF(reader.result); 
         }
-      }
-      reader.readAsDataURL(file)
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleDragOver = (event) => {
-    event.preventDefault()
-  }
+    event.preventDefault();
+  };
 
   const renderPDF = (pdfData) => {
-    const byteArray = Uint8Array.from(atob(pdfData.split(",")[1]), (c) =>
-      c.charCodeAt(0)
-    ) // Convert base64 to Uint8Array
-
-    const loadingTask = pdfjs.getDocument({ data: byteArray })
+    const byteArray = Uint8Array.from(atob(pdfData.split(',')[1]), c => c.charCodeAt(0));  // Convert base64 to Uint8Array
+  
+    const loadingTask = pdfjs.getDocument({ data: byteArray });
     loadingTask.promise.then(
       (pdf) => {
-        const numPages = pdf.numPages
-        setMaxPages(numPages)
-        const pages = []
-        const renderPagePromises = [] // hold promises (~=threads) to ensure correct pdf pages order
-
+        const numPages = pdf.numPages;
+        setMaxPages(numPages);
+        const pages = [];
+        const renderPagePromises = [];  // hold promises (~=threads) to ensure correct pdf pages order
+  
         for (let pageNum = 1; pageNum <= numPages; pageNum++) {
           const renderPagePromise = pdf.getPage(pageNum).then((page) => {
-            const scale = 1.5
-            const viewport = page.getViewport({ scale })
-
-            const canvas = document.createElement("canvas")
-            const context = canvas.getContext("2d")
-            canvas.width = viewport.width
-            canvas.height = viewport.height
-
-            return page
-              .render({ canvasContext: context, viewport })
-              .promise.then(() => {
-                return canvas.toDataURL()
-              })
-          })
-
-          renderPagePromises.push(renderPagePromise)
+            const scale = 1.5;
+            const viewport = page.getViewport({ scale });
+  
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+  
+            return page.render({ canvasContext: context, viewport }).promise.then(() => {
+              return canvas.toDataURL();
+            });
+          });
+  
+          renderPagePromises.push(renderPagePromise);  
         }
-
+  
         Promise.all(renderPagePromises).then((pagesData) => {
-          setPdfPages(pagesData)
-        })
+          setPdfPages(pagesData);  
+        });
       },
       (error) => {
-        console.error("Error rendering PDF", error)
+        console.error("Error rendering PDF", error);
       }
-    )
-  }
-
+    );
+  };
+  
   const handlePrintClick = () => {
-    if ((!filePreview && pdfPages.length === 0) || !range || !selectedPrinter) {
-      setMessage("Các thông số cài đặt không hợp lệ")
-      setIsModalOpen(true)
-    } else {
-      setMessage("Print successful!")
-      const parts = range.split("-")
-      if (parts.length === 2) {
-        setTotalPages((Number(parts[1]) - Number(parts[0]) + 1) * copies)
-      } else setTotalPages(copies)
+    if ((!filePreview && pdfPages.length === 0) || (!range) || (!selectedPrinter)) {
+      setMessage("Các thông số cài đặt không hợp lệ");
+      setIsModalOpen(true);
+    } 
 
-      setOpenProgressModal(true)
+    else {
+      //addLog(fileName, totalPages, selectedPrinter, curStudent? curStudent.username : "");
+      const parts=range.split("-");
+      let calculatedTotalPages = parts.length === 2
+        ? (Number(parts[1]) - Number(parts[0]) + 1) * copies
+        : copies;
+      calculatedTotalPages=Math.ceil(calculatedTotalPages / pagesPerSheet);
+      if (isDoubleSided) calculatedTotalPages=Math.ceil(calculatedTotalPages / 2);
+
+      console.log(calculatedTotalPages)
+      console.log(curStudent.studentID)
+      console.log(getUserBalance())
+      if (calculatedTotalPages>getUserBalance()){
+        setMessage("Tài khoản của bạn không đủ số trang");
+        setIsModalOpen(true);
+      }
+      else {
+        updateUserBalance(-calculatedTotalPages);
+        addLog(fileName, calculatedTotalPages, selectedPrinter.real_name + " - " + selectedPrinter.location, curStudent.studentID)
+        setMessage("Print successful!");
+        setOpenProgressModal(true);
+      }
     }
-  }
+  };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
   return (
-    <div className="flex flex-col w-full h-[80vh] overflow-y-scroll" id="style-15">
-      {/*Properties modal*/}
-      <PrinterPropertiesModal
-        propertiesModal={propertiesModal}
-        setOpenPropertiesModal={setOpenPropertiesModal}
-        paperSize={paperSize}
-        setPaperSize={setPaperSize}
-      />
-      <PrinterSelectionModal
-        isOpen={printerModal}
-        onClose={() => setOpenPrinterModal(false)}
-        onSelect={setSelectedPrinter}
-      />
+    <div className="flex flex-col min-h-[calc(100vh-4rem)] w-full">
 
-      <MessageModal
-        message={message}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
-      <PrintingProgressModal isOpen={progressModal} onClose={closeModal} />
 
       {/* Header */}
       <div className="mx-6 my-4">
         <div className="inline text-xl font-bold text-gray-800">
           IN TÀI LIỆU
         </div>
-        <div className="inline text-l font-normal text-gray-800 ml-1">SPSS</div>
+        <div className="inline text-l font-normal text-gray-800 ml-1">
+          SPSS
+        </div>
       </div>
 
       {/* Upper section */}
       <div className="flex flex-col h-32 mx-6 my-4">
         <div className="flex flex-row h-16 my-1 items-center justify-between gap-4">
           <div className="w-8">
-            <label className=" text-md font-semibold text-gray-700">Tên:</label>
+            <label
+              className=" text-md font-semibold text-gray-700">
+              Tên:
+            </label>
           </div>
           <div className="w-96">
-            <div
-              className="w-full h-8 border border-gray-300 rounded-sm shadow-md flex items-center justify-between p-2 cursor-pointer"
-              onClick={() => setOpenPrinterModal(true)}
-            >
-              <span>
-                {selectedPrinter ? selectedPrinter.name : "Select a Printer"}
-              </span>
-              <span className="text-gray-400">&#x25BC;</span>
-            </div>
+          <div
+            className="w-full h-8 border border-gray-300 rounded-sm shadow-md flex items-center justify-between p-2 cursor-pointer"
+            onClick={() => setOpenPrinterModal(true)}
+          >
+            <span>{selectedPrinter? `${selectedPrinter.real_name} - ${selectedPrinter.location}` : "Chọn máy in"}</span>
+            <span className="text-gray-400">&#x25BC;</span>
+          </div>
           </div>
           <div className="w-36">
-            <button
+            <button 
               className="p-1 w-full border border-gray-300 shadow-md hover:bg-gray-100 active:bg-gray-200 outline-none focus:ring-blue-300 focus:border-blue-300"
-              onClick={() => setOpenPropertiesModal(true)}
-            >
+              onClick={() => setOpenPropertiesModal(true)}>
               Chỉnh đặc tính
             </button>
           </div>
           <div className="flex-1 flex justify-end">
-            <button
-              className="p-1 w-24 h-12 bg-blue hover:bg-blue-200 active:bg-blue-100 rounded-lg font-bold text-white outline-none foncus:ring-4 focus:ring-lightblue focus:border-lightblue"
-              onClick={handlePrintClick}
-            >
-              IN
+            <button className="p-1 w-24 h-12 bg-blue hover:bg-blue-200 active:bg-blue-100 rounded-lg font-bold text-white outline-none foncus:ring-4 focus:ring-lightblue focus:border-lightblue"
+              onClick={handlePrintClick}>
+              IN 
             </button>
           </div>
         </div>
@@ -485,10 +545,11 @@ const Service = () => {
             max="100"
             step="1"
             value={copies}
-            onChange={(e) => setCopies(Number(e.target.value))}
+            onChange={(e)=> setCopies(Number(e.target.value))}
           />
         </div>
       </div>
+      
 
       {/* Content Area */}
       <div className="flex px-6">
@@ -501,7 +562,7 @@ const Service = () => {
           {/* File Input */}
           <div
             className="h-36 border-2 border-dashed rounded-md p-4 text-center text-gray-500 flex items-center justify-center cursor-pointer hover:bg-gray-100"
-            onClick={() => document.getElementById("fileInput").click()}
+            onClick={() => document.getElementById('fileInput').click()}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
           >
@@ -513,7 +574,7 @@ const Service = () => {
               onChange={handleFileChange}
             />
             {fileName ? (
-              <p className="text-gray-700">{fileName}</p> // Display the file name inside the box
+              <p className="text-gray-700">{fileName}</p>  // Display the file name inside the box
             ) : (
               <p>Drag and drop files here, or click to select files.</p>
             )}
@@ -559,18 +620,14 @@ const Service = () => {
                   type="radio"
                   name="pageRange"
                   className="mr-2"
-                  onFocus={() => setRange(`1-${maxPages}`)}
+                  onFocus={()=> setRange(`1-${maxPages}`)}
                 />
                 Tất cả trang
               </label>
               <label className="flex w-1/2 items-center">
-                <input
-                  type="radio"
-                  name="pageRange"
-                  id="pageRange2"
-                  className="mr-2"
+                <input type="radio" name="pageRange" id="pageRange2" className="mr-2" 
                   onFocus={() => {
-                    document.getElementById("pageRangeInput").focus() // Focus the input when the radio button is focused
+                    document.getElementById("pageRangeInput").focus(); // Focus the input when the radio button is focused
                   }}
                 />
                 Trang:
@@ -578,53 +635,47 @@ const Service = () => {
                   type="text"
                   id="pageRangeInput"
                   onChange={(e) => {
-                    const value = e.target.value
-                    const isValid = /^\d+(-\d+)?$/.test(value)
-
+                    const value = e.target.value;
+                    const isValid = /^\d+(-\d+)?$/.test(value);
+                  
                     if (isValid || value === "") {
-                      const parts = value.split("-")
-                      if (
-                        parts.length === 2 &&
-                        (Number(parts[0]) > Number(parts[1]) ||
-                          Number(parts[0]) < 1 ||
-                          Number(parts[1]) > maxPages)
-                      ) {
-                        setRange("")
-                      } else if (
-                        Number(value) > maxPages ||
-                        Number(value) < 1
-                      ) {
-                        setRange("")
-                      } else setRange(value)
-                    } else setRange("")
+                      const parts = value.split("-");
+                      if (parts.length === 2 && (Number(parts[0]) > Number(parts[1]) || Number(parts[0])<1 || Number(parts[1])>maxPages)) {
+                        setRange("");
+                      }
+                      else if (Number(value)>maxPages || Number(value) < 1){
+                        setRange("");
+                      }
+                      else setRange(value); 
+                    }
+                    else setRange("");
                   }}
                   onFocus={(e) => {
-                    document.getElementById("pageRange2").checked = true
-                    const value = e.target.value
-                    const isValid = /^\d+(-\d+)?$/.test(value)
+                    document.getElementById("pageRange2").checked=true;
+                    const value = e.target.value;
+                    const isValid = /^\d+(-\d+)?$/.test(value);
                     if (isValid || value === "") {
-                      const parts = value.split("-")
-                      if (
-                        parts.length === 2 &&
-                        (Number(parts[0]) > Number(parts[1]) ||
-                          Number(parts[0]) < 1 ||
-                          Number(parts[1]) > maxPages)
-                      ) {
-                        setRange("")
-                      } else if (
-                        Number(value) > maxPages ||
-                        Number(value) < 1
-                      ) {
-                        setRange("")
-                      } else setRange(value)
-                    } else setRange("")
-                  }}
+                      const parts = value.split("-");
+                      if (parts.length === 2 && (Number(parts[0]) > Number(parts[1]) || Number(parts[0])<1 || Number(parts[1])>maxPages)) {
+                        setRange("");
+                      }
+                      else if (Number(value)>maxPages || Number(value) < 1){
+                        setRange("");
+                      }
+                      else setRange(value); 
+                    }
+                    else setRange("");
+                  }}                
                   placeholder="e.g: 1, 5-9"
                   className="ml-2 pl-1 border border-gray-300 rounded-sm shadow-md focus:ring-blue-500 focus:border-blue-500 w-full"
                 />
               </label>
+
             </div>
           </div>
+
+
+
 
           {/* Pages Per Sheet and Orientation */}
           <div className="flex space-x-6">
@@ -719,8 +770,34 @@ const Service = () => {
           </div>
         </div>
       </div>
-    </div>
-  )
-}
+      
+      <PrinterPropertiesModal
+        propertiesModal={propertiesModal}
+        setOpenPropertiesModal={setOpenPropertiesModal}
+        paperSize={paperSize}
+        setPaperSize={setPaperSize}
+        selectedPrinter={selectedPrinter}
+      />
+      <PrinterSelectionModal
+        isOpen={printerModal}
+        onClose={() => setOpenPrinterModal(false)}
+        onSelect={setSelectedPrinter}
+        printersList={printersList}
+      />
 
-export default Service
+      <MessageModal 
+        message={message} 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+        handleNavigation={handleNavigation} 
+      />
+
+      <PrintingProgressModal
+        isOpen={progressModal}
+        onClose={closeModal}
+      />
+    </div>
+  );
+};
+
+export default Print;
