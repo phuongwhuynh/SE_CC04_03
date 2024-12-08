@@ -215,7 +215,7 @@ export const defaultPrinters = [
     allowedPaperType: ["A3", "A4"],
     file_type: ["PDF", "DOCX", "PNG", "JPEG"],
     printed: 45,
-  },
+  }
 ]
 
 const defaultUsers = [
@@ -247,6 +247,8 @@ const defaultUsers = [
     studentID: "2252274",
     password: "Student123456",
     role: "student",
+    balance: 100,
+
   },
   {
     email: "phuong.huynhlan@hcmut.edu.vn",
@@ -255,6 +257,7 @@ const defaultUsers = [
     studentID: "2252654",
     password: "Student123456",
     role: "student",
+    balance: 100,
 
   },
   {
@@ -264,6 +267,8 @@ const defaultUsers = [
     studentID: "2211591",
     password: "Student123456",
     role: "student",
+    balance: 100,
+
   },
   {
     email: "spso@hcmut.edu.vn",
@@ -273,11 +278,27 @@ const defaultUsers = [
     studentID: "",
     password: "Spso123456",
     role: "spso",
+    balance: 100,
+
   }
 
 ]
 
 export default function GlobalState({ children }) {
+  const [selectedPrinter, setSelectedPrinter]=useState("");
+  const [copies, setCopies] = useState(1);
+  const [maxPages, setMaxPages]=useState(1);
+  const [range, setRange] = useState("");
+  const [pagesPerSheet, setPagesPerSheet] = useState(1);
+  const [orientation, setOrientation] = useState("Dọc");
+  const [margin, setMargin] = useState(0.02);
+  const [isDoubleSided, setIsDoubleSided] = useState(false);
+  const [flipOption, setFlipOption] = useState("dai");
+  const [filePreview, setFilePreview] = useState(null);
+  const [fileType, setFileType] = useState(null);
+  const [pdfPages, setPdfPages] = useState([]);
+  const [fileName, setFileName] = useState('');
+  const [paperSize, setPaperSize]=useState();
   class Log {
     constructor(filename, totalPages, printerName, studentID) {
       this.filename = filename
@@ -428,7 +449,23 @@ export default function GlobalState({ children }) {
         usersList,
         setCurStudent,
         updateUserBalance,
-        getUserBalance
+        getUserBalance,
+
+        //for service.jsx
+        selectedPrinter, setSelectedPrinter,
+        copies, setCopies,
+        maxPages, setMaxPages,
+        range, setRange,
+        pagesPerSheet, setPagesPerSheet,
+        orientation, setOrientation,
+        margin, setMargin,
+        isDoubleSided, setIsDoubleSided,
+        flipOption, setFlipOption,
+        filePreview, setFilePreview,
+        fileType, setFileType,
+        pdfPages, setPdfPages,
+        fileName, setFileName,
+        paperSize, setPaperSize
       }}
     >
       {children}
