@@ -5,6 +5,7 @@ import React from "react"
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import MyDropzone from "./Dropzone"
+import printer from '../../assets/printer1.jpg'
 import {
   FormControl,
   FormGroup,
@@ -17,23 +18,28 @@ import {
 } from "@mui/material"
 
 const AddPrinterModel = () => {
-    const {addPrinter, setAddPrinter} = useContext(GlobalContext)
+    const { addPrinter, setAddPrinter, addOnePrinter } =
+      useContext(GlobalContext)
     const [position, setPosition] = useState("center")
     const [cs, setCs] = useState('')
     const [ink,setInk] = useState("laser")
     const handleInkChange = e=>{
       setInk(e.target.value)
+      print(e.target.value)
     }
     const handleChangeCS = (e)=>{
         setCs(e.target.value)
+        console.log('Campus: ',e.target.value)
     }
     const [building,setBuilding] = useState('')
     const [printerName,setPrinterName] = useState('')
     const handleChangeBulding = (e) => {
       setBuilding(e.target.value)
+      console.log('Building: ',e.target.value)
     }
     const handleNameChange = (e)=>{
       setPrinterName(e.target.value)
+      console.log("Name: ", e.target.value);
     }
     const buildings = {"CS1":[
         "C6 - 501",
@@ -49,16 +55,41 @@ const AddPrinterModel = () => {
         "H7 - 502",
         "H4 - 403"
     ]}
-    const [selectedSizes, setSelectedSizes] = React.useState(["a3", "a4"])
-
+    const [selectedSizes, setSelectedSizes] = useState(["a3", "a4"])
+    const [selectedFunction, setSelectedFunction] = useState("")
     const handleCheckboxChange = (size) => {
-      setSelectedSizes((prev) =>
-        prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size]
-      )
+      setSelectedSizes((prev) => {
+        const updatedSizes = prev.includes(size)
+          ? prev.filter((s) => s !== size)
+          : [...prev, size]
+        console.log("Updated Sizes:", updatedSizes) // Log the updated state here
+        return updatedSizes
+      })
     }
     const [inkType,setInkType] = useState("Canon 325")
     const handleInkTypeChange= e => {
       setInkType(e.target.value)
+    }
+
+    const handleSubmitAdd = () => {
+      setAddPrinter(false)
+      console.log(`Location: ${building.split('-')[0]}`)
+      let page = [200,200]
+      if(selectedSizes.length==3){
+        page.push(100);
+      }else if(selectedSizes.length == 4){
+        page.push(100);
+      }
+      addOnePrinter(
+        printerName,
+        cs,
+        9,
+        printer,
+        inkType,
+        page,
+        selectedSizes,
+        ["PDF", "DOCX", "PNG", "JPEG"]
+      );
     }
   return (
     <Dialog
@@ -151,8 +182,9 @@ const AddPrinterModel = () => {
           <FormControl>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
               name="radio-buttons-group"
+              value={selectedFunction} 
+              onChange={(e) => setSelectedFunction(e.target.value)}
             >
               {["In 1 mặt", "In 2 mặt", "In màu", "In WiFi"].map((item) => (
                 <FormControlLabel
@@ -280,7 +312,7 @@ const AddPrinterModel = () => {
         </div>
       </div>
       <div className="flex justify-end mr-10 mb-0">
-        <div className="buttonOwn2" onClick={()=>setAddPrinter(false)}>
+        <div className="buttonOwn2" onClick={handleSubmitAdd}>
           <a href="#" className="relative">
             <div className="flex items-center gap-2">Thêm vào</div>
           </a>

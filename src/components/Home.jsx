@@ -62,53 +62,66 @@ const PrintTable = ({ data }) => {
 };
 
 const HomeSection = () => (
-    <div className="right-section">
-        <div className="div1">
-            <div className="name">Tổng kết ngày</div>
-            <div className="date">21/10/2024</div>
-            <div className="data">
-                {[...Array(4)].map((_, i) => (
-                    <DataCard
-                        key={i}
-                        value="220.000 VND"
-                        label="Tổng tiền thu"
-                        change="-5% hôm qua"
-                    />
-                ))}
-            </div>
-        </div>
-        <div className="div2">
-            <div className="bxh">
-                <div className="user-name">Xếp hạng người dùng</div>
-                <img src={`${home_icons.others.group_90}`} />
-            </div>
-            <div className="total-cost">
-                <div className="cost">Doanh thu trong tuần</div>
-                <img src={`${home_icons.others.barLineChart}`} />
-            </div>
-        </div>
-        <div className="div3">
-            <div className="pie-chart">
-                <div>Tổng chi phí</div>
-                <div className="pie-chart-img">
-                    <img className="pie-img" src={`${home_icons.others.pieLayer}`} alt="Pie chart" />
-                    <img className="pro-img" src={`${home_icons.others.legends}`} alt="Legend" />
-                </div>
-            </div>
-            <div className="line-chart">
-                <div>Người dùng truy cập</div>
-                <img src={`${home_icons.others.barLineChart2}`} alt="User access chart" />
-            </div>
-        </div>
-        <div className="div4">
-            <div className="info">
-                <h2>Đơn in gần đây</h2>
-                <a href="#" className="show-more">Show more...</a>
-            </div>
-            <PrintTable data={printData} />
-        </div>
+  <div className="right-section">
+    <div className="div1">
+      <div className="name">Tổng kết ngày</div>
+      <div className="date">21/10/2024</div>
+      <div className="data">
+        {[...Array(4)].map((_, i) => (
+          <DataCard
+            key={i}
+            value="220.000 VND"
+            label="Tổng tiền thu"
+            change="-5% hôm qua"
+          />
+        ))}
+      </div>
     </div>
-);
+    <div className="div2">
+      <div className="bxh">
+        <div className="user-name">Xếp hạng người dùng</div>
+        <img src={`${home_icons.others.group_90}`} />
+      </div>
+      <div className="total-cost">
+        <div className="cost">Doanh thu trong tuần</div>
+        <img src={`${home_icons.others.barLineChart}`} />
+      </div>
+    </div>
+    <div className="div3">
+      <div className="pie-chart">
+        <div>Tổng chi phí</div>
+        <div className="pie-chart-img">
+          <img
+            className="pie-img"
+            src={`${home_icons.others.pieLayer}`}
+            alt="Pie chart"
+          />
+          <img
+            className="pro-img"
+            src={`${home_icons.others.legends}`}
+            alt="Legend"
+          />
+        </div>
+      </div>
+      <div className="line-chart">
+        <div>Người dùng truy cập</div>
+        <img
+          src={`${home_icons.others.barLineChart2}`}
+          alt="User access chart"
+        />
+      </div>
+    </div>
+    <div className="div4">
+      <div className="info">
+        <h2>Đơn in gần đây</h2>
+        <a href="#" className="show-more">
+          Show more...
+        </a>
+      </div>
+      <PrintTable data={printData} />
+    </div>
+  </div>
+)
 
 const Footer = () => (
     <div className="right-footer">
@@ -123,11 +136,15 @@ const Footer = () => (
 const Home = () => {
     const { tab } = useContext(GlobalContext);
     return (
-        <div style={{ display: 'flex', margin: 0, flexDirection: 'column' }}>
-            {tab === 'home' && <HomeSection />}
-            <Footer />
-        </div>
-    );
+      <div
+        style={{ display: "flex", margin: 0, flexDirection: "column" }}
+        className="h-[80vh] overflow-y-scroll"
+        id="style-15"
+      >
+        {tab === "home" && <HomeSection />}
+        <Footer />
+      </div>
+    )
 };
 
 export default Home;
