@@ -218,6 +218,69 @@ export const defaultPrinters = [
     printed: 45,
   },
 ]
+const defaultUsers = [
+  {
+    email: "anh.huynhanh@hcmut.edu.vn",
+    name: "HUỲNH NGUYỄN NGỌC ANH",
+    major: "Khoa học máy tính",
+    studentID: "2252022",
+    password: "Student123456",
+    role: "student",
+    log: [],
+    balance: 100,
+  },
+  {
+    email: "quan.hoangstephen180@hcmut.edu.vn",
+    name: "HOÀNG MINH QUÂN",
+    major: "Khoa học máy tính",
+    studentID: "2212787",
+    password: "Student123456",
+    role: "student",
+    log: [],
+    balance: 100,
+  },
+  {
+    email: "hung.huynhbk2022@hcmut.edu.vn",
+    name: "HUỲNH GIA HƯNG",
+    major: "Khoa học máy tính",
+    studentID: "2252274",
+    password: "Student123456",
+    role: "student",
+    log: [],
+    balance: 100,
+  },
+  {
+    email: "phuong.huynhlan@hcmut.edu.vn",
+    name: "HUỲNH LAN PHƯƠNG",
+    major: "Khoa học máy tính",
+    studentID: "2252654",
+    password: "Student123456",
+    role: "student",
+    log: [],
+    balance: 100,
+  },
+  {
+    email: "khoa.huynh314@hcmut.edu.vn",
+    name: "HUỲNH NGỌC KHOA",
+    major: "Khoa học máy tính",
+    studentID: "2211591",
+    password: "Student123456",
+    role: "student",
+    log: [],
+    balance: 100,
+  },
+  {
+    email: "spso@hcmut.edu.vn",
+    name: "HCMUT SPSO",
+    major: "Khoa hoc may tinh",
+    studentID: "",
+    password: "Spso123456",
+    role: "spso",
+    log: [],
+    balance: 100,
+  },
+]
+
 
 export default function GlobalState({ children }) {
   class Log {
@@ -232,14 +295,21 @@ export default function GlobalState({ children }) {
   }
 
   class Student {
-    constructor(username) {
-      this.username = username
+    constructor(email, name, major, id, password, role, log = []) {
+      this.email = email
+      this.name = name
+      this.major = major
+      this.studentID = id
+      this.password = password
+      this.role = role
+      this.log = log
       this.balance = 100 // Default balance
-      this.log = []
     }
+
     addBalance(amount) {
       this.balance += amount
     }
+
     addLog(newLog) {
       this.log.push(newLog)
     }
@@ -251,6 +321,10 @@ export default function GlobalState({ children }) {
   const [printersList, setPrintersList] = useState(() => {
     const savedPrinters = JSON.parse(localStorage.getItem("printers"))
     return savedPrinters || defaultPrinters
+  })
+  const [usersList,setUsersList] = useState(()=>{
+    const savedUsers = JSON.parse(localStorage.getItem("users"))
+    return savedUsers || defaultUsers
   })
   const [logList, setLogList] = useState(
     () => JSON.parse(localStorage.getItem("logs")) || []
@@ -267,8 +341,16 @@ export default function GlobalState({ children }) {
   const [files, setFiles] = useState([])
 
   useEffect(() => {
-    localStorage.setItem("printers", JSON.stringify(printersList))
+    if (printersList !== JSON.parse(localStorage.getItem("printers"))) {
+      localStorage.setItem("printers", JSON.stringify(printersList))
+    }
   }, [printersList])
+
+  useEffect(() => {
+    if (usersList !== JSON.parse(localStorage.getItem("users"))) {
+      localStorage.setItem("users", JSON.stringify(usersList))
+    }
+  }, [usersList])
 
   useEffect(() => {
     localStorage.setItem("id", JSON.stringify(id))
@@ -284,23 +366,27 @@ export default function GlobalState({ children }) {
     localStorage.setItem("logs", JSON.stringify(updatedLogList))
 
     if (curStudent) {
-      curStudent.addLog(log)
-      const updatedStudentList = studentList.map((student) =>
-        student.username === curStudent.username ? curStudent : student
+    
+      const updatedStudent = { ...curStudent }
+      updatedStudent.addLog(log)
+
+      const updatedStudentList = studentList.map(
+        (student) =>
+          student.email === updatedStudent.email ? updatedStudent : student 
       )
       setStudentList(updatedStudentList)
       localStorage.setItem("students", JSON.stringify(updatedStudentList))
     }
   }
 
-  const addStudent = (username) => {
+  const addStudent = (email) => {
     const existingStudent = studentList.find(
-      (student) => student.username === username
+      (student) => student.email === email
     )
     if (existingStudent) {
       setCurStudent(existingStudent)
     } else {
-      const newStudent = new Student(username)
+      const newStudent = new Student(email) 
       const updatedStudentList = [...studentList, newStudent]
       setStudentList(updatedStudentList)
       setCurStudent(newStudent)
@@ -361,6 +447,8 @@ export default function GlobalState({ children }) {
         addLog,
         addOnePrinter,
         addStudent,
+        usersList,
+        setUsersList,
       }}
     >
       {children}

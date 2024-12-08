@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import hcmut from '../assets/hcmut.png'
 import { BiSolidMessageError } from "react-icons/bi"
-import { accounts } from '../utils/utils'
 import { useNavigate } from "react-router-dom"
+import { GlobalContext } from '../context'
 
 const Login = () => {
+    const {usersList} = useContext(GlobalContext)
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [error,setError] = useState([]);
@@ -28,16 +29,16 @@ const Login = () => {
         }
         let exist = false;
         let user_data = null;
-        accounts.forEach(acc=>{
-            if(acc.email == email){
-                exist = true;
-                if(acc.password != password){
-                    setError(["Sai mật khẩu"]);
-                    setPassword("");
-                    return;
-                } 
-                user_data = acc
+        usersList.forEach((acc) => {
+          if (acc.email == email) {
+            exist = true
+            if (acc.password != password) {
+              setError(["Sai mật khẩu"])
+              setPassword("")
+              return
             }
+            user_data = acc
+          }
         })
         if(!exist){
             setError((prevErrors) => [...prevErrors, "Email không tồn tại"])
