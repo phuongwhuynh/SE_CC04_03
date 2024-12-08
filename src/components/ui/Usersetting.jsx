@@ -17,6 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 })
 
 export default function UserSetting() {
+  const user = JSON.parse(localStorage.getItem("user"))
   const { openUserSetting, setOpenUserSetting } =
     React.useContext(GlobalContext)
   const navigate = useNavigate();
@@ -28,6 +29,8 @@ export default function UserSetting() {
     console.log('logout');
     localStorage.removeItem("user") 
     navigate("/login")
+    setOpenUserSetting(false)
+    
   }
   return (
     <React.Fragment>
@@ -53,9 +56,9 @@ export default function UserSetting() {
                   <img src={avatar} className="w-24 rounded-full" />
                 </div>
                 <div className="text-[#2f3542]">
-                  <p className="text-lg font-bold text-black">Nguyễn Văn A</p>
+                  <p className="text-lg font-bold text-black">{user.name}</p>
 
-                  <p>HCMUT SPSO</p>
+                  <p>{user.major}</p>
                 </div>
               </div>
               <div>
@@ -67,14 +70,14 @@ export default function UserSetting() {
                 <p className="text-lg font-semibold">Thông tin cá nhân</p>
                 <EditButton />
               </div>
-              <div className="flex justify-between mt-4">
+              <div className="flex justify-between mt-4 gap-4">
                 <div>
                   <p className="text-sm">Họ Tên</p>
-                  <p className="font-semibold">Nguyễn Văn A</p>
+                  <p className="font-semibold">{user.name}</p>
                 </div>
                 <div>
                   <p className="text-sm">Email</p>
-                  <p className="font-semibold">anh.huynhanh@hcmut.edu.vn</p>
+                  <p className="font-semibold">{user.email}</p>
                 </div>
                 <div>
                   <p className="text-sm">Số điện thoại</p>
@@ -83,28 +86,52 @@ export default function UserSetting() {
               </div>
             </div>
             <div className="my-4 border border-[#d6cece] rounded-md p-4 text-center">
-              <p className="mb-2 text-lg font-semibold">Management Team</p>
-              <hr></hr>
-              <div className="flex justify-between mx-8 mt-4">
-                <div>
-                  <div
-                    className="w-12 h-12 border-[#a4b0be] border-dashed flex items-center justify-center p-2 rounded-lg text-[#a4b0be] mb-1"
-                    style={{ borderWidth: "3px" }}
-                  >
-                    <FaPlus />
+              {user.role == "spso" ? (
+                <>
+                  <p className="mb-2 text-lg font-semibold">Management Team</p>
+                  <hr></hr>
+                  <div className="flex justify-between mx-8 mt-4">
+                    <div>
+                      <div
+                        className="w-12 h-12 border-[#a4b0be] border-dashed flex items-center justify-center p-2 rounded-lg text-[#a4b0be] mb-1"
+                        style={{ borderWidth: "3px" }}
+                      >
+                        <FaPlus />
+                      </div>
+                      <p className="text-sm font-semibold">Add</p>
+                    </div>
+                    {managers.map((manager, i) => (
+                      <div key={i}>
+                        <img
+                          src={manager.avatar}
+                          className="w-12 rounded-full border border-[#d6cece] mb-1"
+                        />
+                        <p className="text-sm font-semibold">{manager.name}</p>
+                      </div>
+                    ))}
                   </div>
-                  <p className="text-sm font-semibold">Add</p>
-                </div>
-                {managers.map((manager, i) => (
-                  <div key={i}>
-                    <img
-                      src={manager.avatar}
-                      className="w-12 rounded-full border border-[#d6cece] mb-1"
-                    />
-                    <p className="text-sm font-semibold">{manager.name}</p>
+                </>
+              ) : (
+                <>
+                  <p className="mb-2 text-lg font-semibold ">
+                    Thông tin tài khoản
+                  </p>
+                  <div className="flex items-center justify-between mt-6">
+                    <div>
+                      <p className="text-3xl font-bold">{user.balance || 0}</p>
+                      <p className="mt-2">Trang (A4) còn lại</p>
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold">{user.printed || 0}</p>
+                      <p className="mt-2">Tài liệu đã in</p>
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold">22</p>
+                      <p className="mt-2">Lượt đã đăng nhập</p>
+                    </div>
                   </div>
-                ))}
-              </div>
+                </>
+              )}
             </div>
             <button className="px-2 py-1 mx-2 my-2 text-white bg-red-500 rounded-sm cursor-pointer delete-btn ">
               Khóa tài khoản

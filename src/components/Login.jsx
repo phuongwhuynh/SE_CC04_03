@@ -52,6 +52,7 @@ const Login = () => {
             major: user_data.major,
             studentID: user_data.studentID,
             role: user_data.role,
+            balance: user_data.balance,
           timestamp: new Date().toISOString(),
         }
         localStorage.setItem("user", JSON.stringify(userData));

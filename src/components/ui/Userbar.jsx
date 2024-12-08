@@ -9,6 +9,7 @@ import { LuChevronFirst } from "react-icons/lu"
 import { LuChevronLast } from "react-icons/lu"
 
 const Userbar = () => {
+const user = JSON.parse(localStorage.getItem("user"))
   const { collapse,
     setCollapse } = useContext(GlobalContext)
   const toggleCollapse = () => {

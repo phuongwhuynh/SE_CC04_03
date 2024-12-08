@@ -11,6 +11,7 @@ import Instruction from "./Instruction"
 import { getUserRole } from "../../utils/utils"
 import { AiFillPrinter } from "react-icons/ai"
 import { MdOutlinePayment } from "react-icons/md"
+import { MdHistoryEdu } from "react-icons/md"
 
 const SidebarContainer = ({role}) => {
   const { tab, setTab, collapse } = useContext(GlobalContext)
@@ -58,6 +59,12 @@ const SidebarContainer = ({role}) => {
       icon: <AiFillPrinter />,
       to: "/service",
       indicate: "service",
+    },
+    {
+      title: "Lịch sử in",
+      icon: <MdHistoryEdu />,
+      to: "/history",
+      indicate: "history",
     },
     {
       title: "Cổng thanh toán online",

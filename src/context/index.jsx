@@ -239,7 +239,38 @@ const defaultUsers = [
     log: [],
     balance: 100,
   },
-  // More users...
+  {
+    email: "hung.huynhbk2022@hcmut.edu.vn",
+    name: "HUỲNH GIA HƯNG",
+    major: "Khoa học máy tính",
+    studentID: "2252274",
+    password: "Student123456",
+    role: "student",
+  },
+  {
+    email: "phuong.huynhlan@hcmut.edu.vn",
+    name: "HUỲNH LAN PHƯƠNG",
+    major: "Khoa học máy tính",
+    studentID: "2252654",
+    password: "Student123456",
+    role: "student",
+  },
+  {
+    email: "khoa.huynh314@hcmut.edu.vn",
+    name: "HUỲNH NGỌC KHOA",
+    major: "Khoa học máy tính",
+    studentID: "2211591",
+    password: "Student123456",
+    role: "student",
+  },
+  {
+    email: "spso@hcmut.edu.vn",
+    name: "HCMUT SPSO",
+    major: "SPSO",
+    studentID: "",
+    password: "Spso123456",
+    role: "spso",
+  }
 ]
 
 export default function GlobalState({ children }) {
