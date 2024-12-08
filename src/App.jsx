@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom"
 import Layout from "./components/Layout"
 import { Printers } from "./components/Setting"
 import "./App.css"
@@ -13,13 +13,16 @@ import { getUserRole } from "./utils/utils"
 import UserHome from "./components/UserHome"
 import Service from "./components/Service"
 import Payment from "./components/Payment"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import History from "./components/History"
 import Notification from "./components/Notification"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import WelcomePage from "./components/WelcomePage"
+import { GlobalContext } from "./context"
 
 function App() {
+
   return (
     <PrimeReactProvider>
       <BrowserRouter>
@@ -30,6 +33,7 @@ function App() {
 }
 
 function AppWithNavigate() {
+  const {setTab} = useContext(GlobalContext)
   const [role, setRole] = useState(getUserRole())
   const navigate = useNavigate()
 
@@ -49,10 +53,23 @@ function AppWithNavigate() {
       })
     }
   }, [role, navigate])
+  useEffect(() => {
+    const path = location.pathname
+    if (path === "/") setTab("home")
+    else if (path.includes("order")) setTab("order")
+    else if (path.includes("report")) setTab("report")
+    else if (path.includes("setting")) setTab("setting")
+    else if (path.includes("users")) setTab("users")
+    else if (path.includes("service")) setTab("service")
+    else if (path.includes("history")) setTab("history")
+    else if (path.includes("payment")) setTab("payment")
+    else setTab("")
+  }, [location.pathname])
 
   return (
     <>
       <Routes>
+        <Route path="/" element={<WelcomePage/>}></Route>
         {role === "spso" && (
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
