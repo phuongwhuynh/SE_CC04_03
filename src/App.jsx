@@ -12,8 +12,9 @@ import Login from "./components/Login"
 import { getUserRole } from "./utils/utils"
 import UserHome from "./components/UserHome"
 import Service from "./components/Service"
-import OnlinePayment from "./components/OnlinePayment"
+import Payment from "./components/Payment"
 import { useState, useEffect } from "react"
+import History from "./components/ui/History"
 
 function App() {
   return (
@@ -52,7 +53,8 @@ function AppWithNavigate() {
         <Route path="/" element={<Layout />}>
           <Route index element={<UserHome />} />
           <Route path="service" element={<Service />} />
-          <Route path="payment" element={<OnlinePayment />} />
+          <Route path="history" element={<History/>}/>
+          <Route path="payment" element={<Payment />} />
         </Route>
       )}
       <Route path="/login" element={<Login />}></Route>

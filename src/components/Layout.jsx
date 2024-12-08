@@ -48,7 +48,7 @@ const Layout = () => {
         </aside>
 
         <div className="h-full w-full">
-          <div className="w-full bg-blue h-16 flex items-center p-2 justify-between pr-12 bar">
+          <div className="w-full bg-blue h-16 flex items-center p-2 justify-between pr-12 bar1">
             <Userbar />
           </div>
           <div className="p-4">
