@@ -215,7 +215,7 @@ const MessageModal = ({ message, isOpen, onClose, handleNavigation }) => {
           <div className="flex flex-row justify-center">
             <button
               className="m-4 h-12 p-2 bg-blue hover:bg-blue-200 active:bg-blue-300 text-white rounded-lg"
-              onClick={() => handleNavigation("/payment")}
+              onClick={() => handleNavigation("payment")}
             >
               Tới trang mua
             </button>
@@ -343,7 +343,7 @@ const PrintingProgressModal = ({ isOpen, onClose }) => {
 const Print = () => {
 
   const navigate = useNavigate(); 
-  const {printersList, addLog, curStudent, getUserBalance, updateUserBalance, setCurStudent}=useContext(GlobalContext)
+  const {printersList, addLog, curStudent, getUserBalance, updateUserBalance, setCurStudent, setTab}=useContext(GlobalContext)
   const { selectedPrinter, setSelectedPrinter,
           copies, setCopies,
           maxPages, setMaxPages,
@@ -366,7 +366,6 @@ const Print = () => {
     }
   }, []); 
 
-  console.log(curStudent.studentID)
   const [printerModal, setOpenPrinterModal]=useState(false);
   const [propertiesModal, setOpenPropertiesModal]=useState(false);
   const [message, setMessage] = useState(""); // To store the message to show in modal
@@ -375,7 +374,8 @@ const Print = () => {
   const closeModal = () => setOpenProgressModal(false);
 
   const handleNavigation = (path) => {
-    navigate(path);
+    setTab(path);
+    navigate('/'+path);
   }
   const handleFileChange = (event) => {
     const file = event.target.files[0];
