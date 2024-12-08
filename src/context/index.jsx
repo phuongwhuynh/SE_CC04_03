@@ -227,6 +227,7 @@ const defaultUsers = [
     password: "Student123456",
     role: "student",
     log: [],
+
     balance: 100,
   },
   {
@@ -254,6 +255,7 @@ const defaultUsers = [
     studentID: "2252654",
     password: "Student123456",
     role: "student",
+
   },
   {
     email: "khoa.huynh314@hcmut.edu.vn",
@@ -267,10 +269,12 @@ const defaultUsers = [
     email: "spso@hcmut.edu.vn",
     name: "HCMUT SPSO",
     major: "SPSO",
+
     studentID: "",
     password: "Spso123456",
     role: "spso",
   }
+
 ]
 
 export default function GlobalState({ children }) {
@@ -280,30 +284,36 @@ export default function GlobalState({ children }) {
       this.totalPages = totalPages
       this.printerName = printerName
       this.userid = studentID
-      this.dateTime = new Date()
+      const time=new Date()
+      const formattedDateTime = time.toLocaleString('en-GB', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false, // For 24-hour format
+      });
+      
+      this.dateTime = formattedDateTime
     }
   }
 
-  class Student {
-    constructor(email, name, major, id, password, role, log = []) {
-      this.email = email
-      this.name = name
-      this.major = major
-      this.studentID = id
-      this.password = password
-      this.role = role
-      this.log = log
-      this.balance = 100 // Default balance
-    }
+  const updateUserBalance = (increaseBalance) => {
+    setUsersList((prevUsersList) =>
+      prevUsersList.map((user) =>
+        user.studentID === curStudent.studentID
+          ? { ...user, balance: user.balance + increaseBalance }
+          : user
+      )
+    );
+  };
 
-    addBalance(amount) {
-      this.balance += amount
-    }
-
-    addLog(newLog) {
-      this.log = [...this.log, newLog]
-    }
-  }
+  const getUserBalance = () => {
+    if (!curStudent) return 0;
+    const user = usersList.find((user) => user.studentID === curStudent.studentID);
+    return user ? user.balance : null; // Return the balance or null if not found
+  };
 
   const [printersList, setPrintersList] = useState(() => {
     const savedPrinters = JSON.parse(localStorage.getItem("printers"))
@@ -317,7 +327,11 @@ export default function GlobalState({ children }) {
     const savedLogs = JSON.parse(localStorage.getItem("logs"))
     return savedLogs || []
   })
-  const [curStudent, setCurStudent] = useState(null)
+
+  const [curStudent, setCurStudent] = useState(() => {
+    const savedUser = JSON.parse(localStorage.getItem("user"))
+    return savedUser || null
+  })
   const [tab, setTab] = useState("home")
   const [openUserSetting, setOpenUserSetting] = useState(false)
   const [collapse, setCollapse] = useState(false)
@@ -345,6 +359,12 @@ export default function GlobalState({ children }) {
 
 
 
+  useEffect(() => {
+    if (curStudent !== JSON.parse(localStorage.getItem("user"))) {
+      localStorage.setItem("user", JSON.stringify(curStudent))
+    }
+  }, [curStudent])
+
   const addLog = (filename, totalPages, printerName, studentID) => {
     const log = new Log(filename, totalPages, printerName, studentID)
 
@@ -353,40 +373,6 @@ export default function GlobalState({ children }) {
 
     localStorage.setItem("logs", JSON.stringify(updatedLogList))
 
-    // if (curStudent) {
-    //   const updatedStudent = { ...curStudent }
-    //   updatedStudent.addLog(log)
-
-    //   const updatedStudentList = studentList.map((student) =>
-    //     student.email === updatedStudent.email ? updatedStudent : student
-    //   )
-    //   setStudentList(updatedStudentList)
-    //   localStorage.setItem("users", JSON.stringify(updatedStudentList)) // Corrected here
-    // }
-  }
-
-  const addStudent = (email) => {
-    const existingStudent = usersList.find(
-      (student) => student.email === email
-    )
-    if (existingStudent) {
-      setUsersList(existingStudent)
-    } else {
-      const newStudent = new Student(
-        email,
-        "New Student", //??
-        "Khoa học máy tính", // ??
-        "NewID", // ??
-        "Student123456", // ??
-        "student"
-      )
-      const updatedStudentList = [...studentList, newStudent]
-      setUsersList(updatedStudentList)
-      setCurStudent(newStudent)
-
-      localStorage.setItem("users", JSON.stringify(updatedStudentList))
-    }
-  }
 
   const addOnePrinter = (
     name,
@@ -439,9 +425,10 @@ export default function GlobalState({ children }) {
         curStudent,
         addLog,
         addOnePrinter,
-        addStudent,
         usersList,
-        setUsersList,
+        setCurStudent,
+        updateUserBalance,
+        getUserBalance
       }}
     >
       {children}

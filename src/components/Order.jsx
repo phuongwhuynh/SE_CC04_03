@@ -1,45 +1,14 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../context";
 import './Home.css';
-const printHistory = [
-    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
-    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" },
-    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
-    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" },
-    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
-    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" },
-    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
-    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" },
-    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
-    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" },
-    { id: "00001", file: "KTCT.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00002", file: "finalTest.docx", pages: 30, printer: "CS1 - P2", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00003", file: "minhchung.png", pages: 30, printer: "CS1 - P10", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Lỗi" },
-    { id: "00004", file: "assignment-1.pdf", pages: 30, printer: "CS2 - P3", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đã in" },
-    { id: "00005", file: "MMref.pdf", pages: 30, printer: "CS1 - P1", mail: "anh.huynhanh@hcmut.edu.vn", date: "2024/21/10 15:11:35", status: "Đang in" }
-];
 
 
 const rowsPerPage = 15;
 
 const OrderSection = () => {
+    const {logList}=useContext(GlobalContext)
     const [currentPage, setCurrentPage] = useState(1);
-
+    const reversedLogList = [...logList].reverse(); 
     // Helper function to calculate paginated data
     const paginateData = (data, page) => {
         const startIndex = (page - 1) * rowsPerPage;
@@ -47,8 +16,8 @@ const OrderSection = () => {
         return data.slice(startIndex, endIndex);
     };
 
-    const totalPages = Math.ceil(printHistory.length / rowsPerPage);
-    const currentData = paginateData(printHistory, currentPage);
+    const totalPages = Math.ceil(reversedLogList.length / rowsPerPage);
+    const currentData = paginateData(reversedLogList, currentPage);
 
     // Status class mapping
     const getStatusClass = (status) => {
@@ -79,11 +48,11 @@ const OrderSection = () => {
             <table className="print-history-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        {/* <th>ID</th> */}
                         <th>Tài liệu</th>
                         <th>Số trang</th>
                         <th>Máy in</th>
-                        <th>Mail</th>
+                        <th>ID sinh viên</th>
                         <th>Ngày</th>
                         <th>Trạng thái</th>
                     </tr>
@@ -91,13 +60,13 @@ const OrderSection = () => {
                 <tbody>
                     {currentData.map((item, index) => (
                         <tr key={`${item.id}-${index}`}>
-                            <td>{item.id}</td>
-                            <td>{item.file}</td>
-                            <td>{item.pages}</td>
-                            <td>{item.printer}</td>
-                            <td>{item.mail}</td>
-                            <td>{item.date}</td>
-                            <td className={`status ${getStatusClass(item.status)}`}>{item.status}</td>
+                            {/* <td>{item.id}</td> */}
+                            <td>{item.filename}</td>
+                            <td>{item.totalPages}</td>
+                            <td>{item.printerName}</td>
+                            <td>{item.userid}</td>
+                            <td>{item.dateTime}</td>
+                            <td className={`status ${getStatusClass("Đã in")}`}>Đã in</td>
                         </tr>
                     ))}
                 </tbody>
@@ -140,7 +109,9 @@ const Order = () => {
         <div style={{
             display: 'flex', marginTop: 20, flexDirection: 'column'
         }}>
-            {tab === 'order' && <OrderSection />}
+            {
+                // tab === 'order' && 
+                <OrderSection />}
             {<Footer />}
         </div >
     );

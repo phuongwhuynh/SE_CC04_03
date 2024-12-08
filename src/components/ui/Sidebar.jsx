@@ -1,7 +1,7 @@
 import { IoHome, IoSettingsSharp } from "react-icons/io5"
 import { IoMdCart } from "react-icons/io"
 import { BiSolidReport } from "react-icons/bi"
-import { MdAdminPanelSettings } from "react-icons/md"
+import { MdAdminPanelSettings, MdReceiptLong, MdReceipt } from "react-icons/md"
 import { Link } from "react-router-dom"
 import { FaChevronRight } from "react-icons/fa6"
 
@@ -12,6 +12,7 @@ import { getUserRole } from "../../utils/utils"
 import { AiFillPrinter } from "react-icons/ai"
 import { MdOutlinePayment } from "react-icons/md"
 import { MdHistoryEdu } from "react-icons/md"
+
 
 const SidebarContainer = ({role}) => {
   const { tab, setTab, collapse } = useContext(GlobalContext)
@@ -63,6 +64,7 @@ const SidebarContainer = ({role}) => {
     {
       title: "Lịch sử in",
       icon: <MdHistoryEdu />,
+
       to: "/history",
       indicate: "history",
     },

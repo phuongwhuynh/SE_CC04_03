@@ -19,6 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function UserSetting() {
   const user = JSON.parse(localStorage.getItem("user"))
   const { openUserSetting, setOpenUserSetting } =
+
     React.useContext(GlobalContext)
   const navigate = useNavigate();
 
@@ -31,6 +32,7 @@ export default function UserSetting() {
     navigate("/login")
     setOpenUserSetting(false)
     
+
   }
   return (
     <React.Fragment>
