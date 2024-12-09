@@ -150,7 +150,7 @@ const Payment = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gray-100 flex flex-col w-full relative h-[80vh] overflow-y-scroll" id="style-15">
+    <div className="bg-gray-100 flex flex-col w-full relative h-[80vh] overflow-y-scroll" id="style-15">
       {/* Upper Section */}
       <div className="flex flex-row items-end mx-8 my-4 ">
         <span className="text-2xl font-bold px-2">THANH TOÁN ONLINE</span>
