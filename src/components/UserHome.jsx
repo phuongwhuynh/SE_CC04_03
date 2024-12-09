@@ -43,7 +43,7 @@ const UserHome = () => {
     ],
   };
   return (
-    <div className="user-home">
+    <div className="user-home h-[80vh] overflow-y-scroll" id="style-15">
       <h1 className="header"><b>Ứng dụng</b> SPSS</h1>
       <main className="main-content">
         <div className='div1'>
