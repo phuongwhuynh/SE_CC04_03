@@ -17,10 +17,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 })
 
 export default function UserSetting() {
-  const user = JSON.parse(localStorage.getItem("user"))
   const { openUserSetting, setOpenUserSetting } =
-
     React.useContext(GlobalContext)
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  
   const navigate = useNavigate();
 
   const handleClose = () => {

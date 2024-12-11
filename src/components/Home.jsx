@@ -59,16 +59,32 @@ const PrintTable = () => {
 
 const HomeSection = () => (
   <div className="right-section">
-    <div className="div1">
-      <div className="name">Tổng kết ngày</div>
-      <div className="date">21/10/2024</div>
+    <div className="div1 flex">
+      
       <div className="data">
-        {[...Array(4)].map((_, i) => (
+      <div>
+        <div className="text-4xl font-bold py-2">Tổng kết ngày</div>
+        <div className="text-2xl font-bold py-2">21/10/2024</div>
+      </div>
+        {[
+          {
+            value: "220.000 VND",
+            lable: "Tổng tiền thu",
+            change: "-5% hôm qua",
+          },
+          { value: "30", lable: "Yêu cầu in đã xử lý", change: "+5% hôm qua" },
+          { value: "200", lable: "Trang giấy bán ra", change: "-10% hôm qua" },
+          {
+            value: "12",
+            lable: "Sinh viên đăng nhập lần đầu",
+            change: "-10% hôm qua",
+          },
+        ].map((item, i) => (
           <DataCard
             key={i}
-            value="220.000 VND"
-            label="Tổng tiền thu"
-            change="-5% hôm qua"
+            value={item.value}
+            label={item.lable}
+            change={item.change}
           />
         ))}
       </div>

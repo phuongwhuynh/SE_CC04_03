@@ -5,23 +5,23 @@ import "./Users.css"
 import { GlobalContext } from "../context"
 
 const Users = () => {
-  const {usersList} = useContext(GlobalContext)
+  const { usersList } = useContext(GlobalContext)
   const [users, setUsers] = useState(usersList)
   const [searchTerm, setSearchTerm] = useState("")
   const [newUser, setNewUser] = useState({
     name: "",
     email: "",
-    phone: "",
-    address: "",
+    studentID: "",
+    major: "",
   })
   const [editingUser, setEditingUser] = useState(null)
   const [isAddModalOpen, setAddModalOpen] = useState(false)
   const [isEditModalOpen, setEditModalOpen] = useState(false)
 
   const handleAddUser = () => {
-    if (newUser.name && newUser.email && newUser.phone && newUser.address) {
+    if (newUser.name && newUser.email && newUser.studentID && newUser.major) {
       setUsers([...users, { id: Date.now(), ...newUser }])
-      setNewUser({ name: "", email: "", phone: "", address: "" })
+      setNewUser({ name: "", email: "", studentID: "", major: "" })
       setAddModalOpen(false)
     } else {
       alert("Vui lòng nhập đầy đủ thông tin")
@@ -48,14 +48,14 @@ const Users = () => {
     }
   }
 
-  const filteredUsers = usersList
-    .filter((user) => user.email !== "spso@hcmut.edu.vn") 
+  const filteredUsers = users
+    .filter((user) => user.email !== "spso@hcmut.edu.vn")
     .filter(
       (user) =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.phone.includes(searchTerm) ||
-        user.address.toLowerCase().includes(searchTerm.toLowerCase())
+        user.studentID.includes(searchTerm) ||
+        user.major.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
   return (
@@ -98,15 +98,17 @@ const Users = () => {
         />
         <input
           type="text"
-          placeholder="Số điện thoại"
-          value={newUser.phone}
-          onChange={(e) => setNewUser({ ...newUser, phone: e.target.value })}
+          placeholder="MSSV"
+          value={newUser.studentID}
+          onChange={(e) =>
+            setNewUser({ ...newUser, studentID: e.target.value })
+          }
         />
         <input
           type="text"
-          placeholder="Địa chỉ"
-          value={newUser.address}
-          onChange={(e) => setNewUser({ ...newUser, address: e.target.value })}
+          placeholder="Khoa"
+          value={newUser.major}
+          onChange={(e) => setNewUser({ ...newUser, major: e.target.value })}
         />
         <button onClick={handleAddUser}>Thêm</button>
       </Modal>
@@ -131,16 +133,22 @@ const Users = () => {
             />
             <input
               type="text"
-              value={editingUser.phone}
+              value={editingUser.studentID}
               onChange={(e) =>
-                setEditingUser({ ...editingUser, phone: e.target.value })
+                setEditingUser({
+                  ...editingUser,
+                  studentID: e.target.value,
+                })
               }
             />
             <input
               type="text"
-              value={editingUser.address}
+              value={editingUser.major}
               onChange={(e) =>
-                setEditingUser({ ...editingUser, address: e.target.value })
+                setEditingUser({
+                  ...editingUser,
+                  major: e.target.value,
+                })
               }
             />
             <button onClick={handleUpdateUser}>Cập nhật</button>
@@ -160,7 +168,7 @@ const Users = () => {
         </thead>
         <tbody>
           {filteredUsers.map((user) => (
-            <tr key={user.studentID}>
+            <tr key={user.id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.studentID}</td>
