@@ -9,10 +9,10 @@ Currently, two official plugins are available:
 
 # How to use our website
 
-This is a guide walk through our project about using our applications.
-First, you just need to git clone the link of our project to your local folder.
-Second, you should set up some architecture and technology to run our project. I recommend you should have npm, react and tailwind.
-Then, use your terminal and change directory to the folder contain this repo and run the first command: "npm install". This command will install all the npm package needed for our project.
+This is a guide walk through our project about using our applications.\n
+First, you just need to git clone the link of our project to your local folder.\n
+Second, you should set up some architecture and technology to run our project. I recommend you should have npm, react and tailwind.\n
+Then, use your terminal and change directory to the folder contain this repo and run the first command: "npm install". This command will install all the npm package needed for our project.\n
 Lastly, use the command "npm run dev" to run our applications and the website will show up in your browser.
 
 # Account to access to our website
